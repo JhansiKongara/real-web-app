@@ -1,0 +1,498 @@
+/* Property Detail Page Styles - MagicBricks Inspired */
+.property-detail-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: #f4f5f7;
+    /* Light grey background */
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #d8232a;
+    /* MagicBricks Red */
+    font-weight: 600;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+svg.lucide.lucide-image {
+    position: relative;
+    top: 0px;
+}
+
+.detail-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    /* Image takes more space */
+    gap: 24px;
+    align-items: start;
+}
+
+/* LEFT COLUMN */
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Image Section */
+.image-section {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 400px;
+    background: #000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* Show full image */
+    transition: transform 0.3s ease;
+}
+
+/* Inline Gallery Controls */
+.img-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    /* Hidden by default */
+
+    &:hover {
+        background: #fff;
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
+.image-section:hover .img-nav-btn {
+    opacity: 1;
+    /* Show on hover */
+}
+
+.img-nav-btn.prev {
+    left: 16px;
+}
+
+.img-nav-btn.next {
+    right: 16px;
+}
+
+.gallery-counter {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 5;
+}
+
+.status-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.status-available {
+    background: #009688;
+}
+
+.status-sold {
+    background: #d32f2f;
+}
+
+/* Sections (Overview, Description, Amenities) */
+.section-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    border-bottom: 2px solid #d8232a;
+    /* Red underline */
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+/* Key Features Grid (Overview) */
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.overview-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.overview-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background: #fff0f0;
+    /* Light red bg */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d8232a;
+}
+
+.overview-text span {
+    display: block;
+    font-size: 12px;
+    color: #757575;
+}
+
+.overview-text strong {
+    font-size: 14px;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* Description Text */
+.description-text {
+    line-height: 1.6;
+    color: #424242;
+    font-size: 14px;
+}
+
+/* Amenities List */
+.amenities-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* RIGHT COLUMN (Sticky Price Card) */
+.right-column {
+    position: sticky;
+    top: 100px;
+    z-index: 10;
+}
+
+.price-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #d8232a;
+}
+
+.property-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.property-location {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #757575;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.price-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.price-unit {
+    font-size: 14px;
+    color: #757575;
+    font-weight: 400;
+}
+
+.inquiry-btn {
+    width: 100%;
+    padding: 14px;
+    background: #d8232a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #b71c1c;
+    }
+}
+
+.contact-btn {
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+    color: #d8232a;
+    border: 1px solid #d8232a;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.2s;
+
+    &:hover {
+        background: #fff0f0;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .right-column {
+        position: static;
+        order: -1;
+        /* Move price card to top on mobile */
+    }
+
+    .image-section {
+        height: 250px;
+    }
+}
+
+/* Inline Gallery Controls (Global) */
+.gallery-trigger-btn {
+    position: absolute;
+    bottom: 16px;
+    /* Changed from top to bottom as per standard UI */
+    left: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly more transparent */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    /* Move from top: 16px to bottom for better visibility over image usually */
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.05);
+    }
+}
+
+.close-gallery-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #fff;
+    color: #333;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 15;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        background: #f0f0f0;
+    }
+}
+
+.img-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    color: #333;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        background: #fff;
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
+.img-nav-btn.prev {
+    left: 16px;
+}
+
+.img-nav-btn.next {
+    right: 16px;
+}
+
+.gallery-counter {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    z-index: 10;
+}
+
+/* Hide Modal Styles if present */
+.gallery-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.gallery-content {
+    width: 90%;
+    max-width: 1100px;
+    background: transparent;
+    /* Changed from #000 */
+    padding: 0;
+    /* Remove padding to eliminate border space */
+    border-radius: 10px;
+    position: relative;
+    box-shadow: none;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: -40px;
+    /* Move it outside the content box to the top right */
+    right: 0;
+    background: transparent;
+    border: none;
+    /* No border */
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align icon to right if needed, or center */
+    transition: transform 0.3s ease;
+    padding: 0;
+
+    &:hover {
+        transform: scale(1.2);
+        color: #d8232a;
+        /* Accent color on hover */
+    }
+}
+
+.horizontal-gallery {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-top: 10px;
+
+    /* Snap Logic */
+    scroll-snap-type: x mandatory;
+    width: 100%;
+}
+
+/* Scrollbar styling */
+.horizontal-gallery::-webkit-scrollbar {
+    height: 8px;
+}
+
+.horizontal-gallery::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.horizontal-gallery::-webkit-scrollbar-thumb {
+    background: #d8232a;
+    border-radius: 4px;
+}
+
+/* Images */
+.gallery-img {
+    scroll-snap-align: center;
+    object-fit: fill;
+    border-radius: 8px;
+    min-width: 100%;
+    height: 500px;
+}

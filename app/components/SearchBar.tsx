@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Slider from "@mui/material/Slider";
+import { MapPin, Search, ChevronDown, IndianRupee } from "lucide-react";
 import properties from "../../public/data/script";
+import "./styles/searchbar.scss";
 
 const MIN = 0;
 const MAX = 1000000;

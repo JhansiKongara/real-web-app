@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import properties from "../../public/data/script";
 import PropertyCard, { Property } from "../components/PropertyCard";
 import HorizontalCarousel from "../components/HorizontalCarousel";
-import "./styles/plots.scss";
 
 export default function Plots() {
   const searchParams = useSearchParams();

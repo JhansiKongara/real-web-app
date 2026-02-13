@@ -1,0 +1,64 @@
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+    padding: 0 40px;
+}
+
+.plots-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 10px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #6c2bd9;
+    color: white;
+    border: none;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        background: #581c87;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    &.left {
+        left: 0;
+    }
+
+    &.right {
+        right: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .plots-grid {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .plots-grid {
+        grid-auto-columns: 90%;
+    }
+}

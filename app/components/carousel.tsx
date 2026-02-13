@@ -11,7 +11,6 @@ import "swiper/css/pagination";
 import "./styles/carousel.scss";
 
 export default function Carousel() {
-  // Get only featured properties for hero slider
   const featuredSlides = properties.filter(
     (item) => item.featured
   );

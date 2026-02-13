@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import "./styles/HorizontalCarousel.scss"
 
 interface Props {
   title: string;
