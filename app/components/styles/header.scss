@@ -1,0 +1,114 @@
+/* HEADER */
+.header {
+  background: #0a1f44;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  display: flex;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+}
+
+.header-left {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 39px !important;
+
+}
+
+svg.lucide.lucide-house.nav-icon {
+  position: relative;
+  top: 2px;
+}
+
+
+.home-heading {
+  color: white;
+  font-weight: 500;
+  position: relative;
+  top: 7px;
+  cursor: pointer;
+}
+
+.home-heading:hover {
+  color: #ffcc00;
+}
+
+.logo {
+  color: white;
+}
+
+/* Desktop Menu */
+.menu a {
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu a:hover {
+  color: #ffcc00;
+}
+
+.hamburger {
+  display: none;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+
+svg {
+  // margin-right: 5px;
+  position: relative;
+  top: 6px;
+}
+
+/* END */
+
+@media (max-width: 768px) {
+
+  .menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    min-width: 200px;
+  }
+
+  .mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #0a1f44;
+    font-weight: 500;
+  }
+
+  .mobile-menu svg {
+    width: 20px;
+    height: 20px;
+    color: #0a1f44 !important;
+    fill: #0a1f44 !important;
+  }
+
+  .home-heading {
+    display: none;
+  }
+}
