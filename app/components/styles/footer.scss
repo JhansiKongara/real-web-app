@@ -1,0 +1,12 @@
+%dark-section {
+  background: #0a1f44;
+  color: #fff;
+}
+
+.footer {
+  @extend %dark-section;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+  font-style: oblique;
+}
