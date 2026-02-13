@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 
 import properties from "../../../public/data/script";
 import Filters from "../../components/Filters";
@@ -12,11 +12,10 @@ import "../../components/styles/listings.scss";
 export default function Listings() {
   const searchParams = useSearchParams();
 
-  const [filteredData, setFilteredData] = useState<Property[]>([]);
   const [sortType, setSortType] = useState("recent");
   const [selectedAmenity, setSelectedAmenity] = useState("");
 
-  useEffect(() => {
+  const filteredData = useMemo(() => {
     const locationQuery = searchParams.get("location") || "";
     const minPrice = searchParams.get("minPrice")
       ? Number(searchParams.get("minPrice"))
@@ -56,7 +55,7 @@ export default function Listings() {
       );
     });
 
-    setFilteredData(result);
+    return result;
   }, [searchParams, sortType, selectedAmenity]);
 
   return (
