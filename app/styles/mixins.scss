@@ -1,0 +1,100 @@
+/* =========================================
+   Mixins & Variables - Single Source of Truth
+   ========================================= */
+
+/* --- Colors --- */
+$color-bg-dark: #0f172a;
+$color-bg-darker: #020617;
+$color-bg-card: rgba(15, 23, 42, 0.95);
+$color-primary: #a855f7;
+$color-secondary: #22d3ee;
+$color-accent: #ec4899;
+$color-text-main: #fff;
+$color-text-muted: #94a3b8;
+$color-border: rgba(34, 211, 238, 0.2);
+
+/* --- Glassmorphism Mixin --- */
+@mixin glass($blur: 12px, $bg: rgba(15, 23, 42, 0.6)) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Flex Center Mixin --- */
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Text Gradient Mixin --- */
+@mixin text-gradient($start: #fff, $mid: #22d3ee, $end: #a855f7) {
+  background: linear-gradient(135deg, $start 0%, $mid 50%, $end 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Animated 3D Text Gradient --- */
+@mixin animated-text-gradient($start: #fff, $mid: #22d3ee, $end: #a855f7) {
+  background: linear-gradient(135deg, $start 0%, $mid 30%, $end 70%, $start 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* --- Scrollbar Hide Mixin --- */
+@mixin no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* --- Styled Scrollbar Mixin --- */
+@mixin custom-scrollbar($width: 8px) {
+  scrollbar-width: thin;
+  scrollbar-color: $color-secondary $color-bg-dark;
+
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.3);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(34, 211, 238, 0.4); // #22d3ee
+    border-radius: 4px;
+    border: 2px solid rgba(15, 23, 42, 0.3); // creates padding effect
+
+    &:hover {
+      background: $color-primary; // #a855f7
+    }
+  }
+}
+
+/* --- Container Constraints --- */
+@mixin container-base {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
+}

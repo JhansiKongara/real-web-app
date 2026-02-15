@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&display=swap');
+
+.footer {
+  background: #0f172a; // Match header dark theme
+  color: #e2e8f0;
+  padding: 0 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px;
+  font-family: 'Lexend', sans-serif;
+  border-top: none;
+  position: relative; // Move to bottom on mobile
+  width: 100%;
+  z-index: 100;
+
+  @media (min-width: 769px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  // Stylish Gradient Separator
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px; // Thicker line
+    background: linear-gradient(90deg, transparent, #22d3ee, #a855f7, transparent);
+    opacity: 1; // Full visibility
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.8); // Stronger glow
+    z-index: 10;
+  }
+
+  .footer-section {
+    flex: 1;
+    min-width: 150px;
+
+    h3 {
+      color: #22d3ee;
+      font-size: 1rem;
+      margin-bottom: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h4 {
+      color: #22d3ee;
+      font-size: 1rem;
+      margin-bottom: 0;
+      text-transform: uppercase;
+    }
+
+    p {
+      line-height: 1.2;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 30px;
+
+      li {
+        margin-bottom: 0;
+        display: block; // Vertical list
+        position: relative;
+        padding-left: 15px; // Space for arrow
+
+        &::before {
+          content: "›";
+          position: absolute;
+          left: 0;
+          color: #a855f7;
+          font-weight: bold;
+          font-size: 1.2rem;
+          line-height: 0.8;
+          top: 1px;
+        }
+
+        a {
+          color: #94a3b8;
+          text-decoration: none;
+          font-size: 0.75rem;
+          transition: 0.3s;
+
+          &:hover {
+            color: #22d3ee;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    width: 100%;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    color: #64748b;
+    font-size: 0.65rem;
+    line-height: 1;
+  }
+}
+
+// Mobile Specific Compact Layout
+@media (max-width: 768px) {
+  .footer {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    gap: 20px;
+    text-align: center;
+
+    // Logo and Quick Links centered
+    .footer-section {
+      width: 100%;
+      text-align: center;
+      min-width: auto;
+
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 10px;
+        text-align: left;
+        max-width: fit-content;
+        margin: 0 auto;
+      }
+    }
+
+    justify-content: center;
+
+    .footer-bottom {
+      margin-top: 0;
+    }
+  }
+}

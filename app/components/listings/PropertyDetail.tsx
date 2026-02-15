@@ -13,17 +13,22 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 
-import properties from "../../public/data/script";
-import "./styles/PropertyDetail.scss";
+import properties from "@/app/lib/properties";
+import "@/app/styles/PropertyDetail.scss";
 
 export default function PropertyDetail() {
   const params = useParams();
   const router = useRouter();
-  const id = params?.id as string;
+  const city = params?.city as string;
+  const slug = params?.slug as string;
 
   const [showGallery, setShowGallery] = useState(false);
 
-  const property = properties.find((p) => p.id.toString() === id);
+  let property = properties.find((p) => p.slug === slug);
+  // Fallback for ID-based URLs
+  if (!property) {
+    property = properties.find((p) => p.id.toString() === slug);
+  }
 
   if (!property) {
     return (
@@ -41,13 +46,21 @@ export default function PropertyDetail() {
     );
   }
 
-  const galleryImages = [
-    property.image,
-    properties[0]?.image,
-    properties[1]?.image,
-    properties[2]?.image,
-    properties[3]?.image,
-  ].filter(Boolean);
+  const galleryImages: string[] = [
+    ...(Array.isArray(property.image) ? property.image : [property.image]),
+    ...(Array.isArray(properties[0]?.image)
+      ? properties[0].image
+      : [properties[0]?.image]),
+    ...(Array.isArray(properties[1]?.image)
+      ? properties[1].image
+      : [properties[1]?.image]),
+    ...(Array.isArray(properties[2]?.image)
+      ? properties[2].image
+      : [properties[2]?.image]),
+    ...(Array.isArray(properties[3]?.image)
+      ? properties[3].image
+      : [properties[3]?.image]),
+  ].filter((img): img is string => typeof img === "string");
 
   const formatPrice = (price: number) =>
     new Intl.NumberFormat("en-IN").format(price);
@@ -64,7 +77,11 @@ export default function PropertyDetail() {
           <div className="left-column">
             <div className="image-section">
               <img
-                src={property.image}
+                src={
+                  Array.isArray(property.image)
+                    ? property.image[0]
+                    : property.image
+                }
                 alt={property.title}
                 className="main-img"
                 onClick={() => setShowGallery(true)}
@@ -135,7 +152,7 @@ export default function PropertyDetail() {
             <div className="section-card">
               <h2 className="section-title">Amenities</h2>
               <div className="amenities-list">
-                {property.amenities.map((amenity, index) => (
+                {(property.amenities || []).map((amenity, index) => (
                   <div key={index} className="amenity-item">
                     <CheckCircle size={16} className="text-green-600" />
                     {amenity}
@@ -154,9 +171,7 @@ export default function PropertyDetail() {
                 <MapPin size={16} /> {property.location}, {property.city}
               </div>
 
-              <div className="price-value">
-                ₹{formatPrice(property.price)}
-              </div>
+              <div className="price-value">₹{formatPrice(property.price)}</div>
 
               <div className="price-unit">
                 @ ₹{(property.price / property.area).toFixed(0)} per sqft
@@ -171,14 +186,8 @@ export default function PropertyDetail() {
 
       {/* 🔥 FULL SCREEN GALLERY MODAL */}
       {showGallery && (
-        <div
-          className="gallery-modal"
-          onClick={() => setShowGallery(false)}
-        >
-          <div
-            className="gallery-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="gallery-modal" onClick={() => setShowGallery(false)}>
+          <div className="gallery-content" onClick={(e) => e.stopPropagation()}>
             <button
               className="modal-close-btn"
               onClick={() => setShowGallery(false)}

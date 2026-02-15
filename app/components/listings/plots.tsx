@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import properties from "../../public/data/script";
-import PropertyCard, { Property } from "../components/PropertyCard";
-import HorizontalCarousel from "../components/HorizontalCarousel";
+import properties from "@/app/lib/properties";
+import PropertyCard from "./PropertyCard";
+import { Property } from "@/app/types";
+import HorizontalCarousel from "@/app/components/ui/HorizontalCarousel";
+import "@/app/styles/plots.scss";
 
 export default function Plots() {
   const searchParams = useSearchParams();
@@ -35,15 +37,13 @@ export default function Plots() {
   });
 
   useEffect(() => {
-    const viewed = JSON.parse(
-      localStorage.getItem("recentlyViewed") || "[]"
-    );
+    const viewed = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
     setRecentlyViewed(viewed);
   }, []);
 
   const handleViewDetails = (property: Property) => {
     let viewed: Property[] = JSON.parse(
-      localStorage.getItem("recentlyViewed") || "[]"
+      localStorage.getItem("recentlyViewed") || "[]",
     );
 
     viewed = viewed.filter((item) => item.id !== property.id);
@@ -56,6 +56,19 @@ export default function Plots() {
 
   return (
     <div className="plots-page">
+      <HorizontalCarousel
+        title={`Available Plot ${
+          searchTerm ? `(Search: "${searchTerm}")` : ""
+        }`}
+      >
+        {availablePlots.map((item) => (
+          <PropertyCard
+            key={item.id}
+            property={item}
+            onView={handleViewDetails}
+          />
+        ))}
+      </HorizontalCarousel>
 
       <HorizontalCarousel title="Recently Uploaded Plot">
         {recentlyUploaded.map((item) => (
@@ -67,25 +80,7 @@ export default function Plots() {
         ))}
       </HorizontalCarousel>
 
-      <HorizontalCarousel
-        title={`Available Plot ${
-          searchTerm ? `(Search: "${searchTerm}")` : ""
-        }`}
-        emptyMessage="No plots found matching your search."
-      >
-        {availablePlots.map((item) => (
-          <PropertyCard
-            key={item.id}
-            property={item}
-            onView={handleViewDetails}
-          />
-        ))}
-      </HorizontalCarousel>
-
-      <HorizontalCarousel
-        title="Recently Viewed Plot"
-        emptyMessage="No recently viewed plots."
-      >
+      <HorizontalCarousel title="Recently Viewed Plot">
         {recentlyViewed.map((item) => (
           <PropertyCard
             key={item.id}
@@ -94,7 +89,6 @@ export default function Plots() {
           />
         ))}
       </HorizontalCarousel>
-
     </div>
   );
 }

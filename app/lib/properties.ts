@@ -1,7 +1,10 @@
-const properties = [
+import { Property } from "@/app/types";
+
+const properties: Property[] = [
   {
     id: 1,
     title: "Premium Plot in Gachibowli test",
+    slug: "premium-plot-in-gachibowli-test",
     location: "Gachibowli",
     city: "Hyderabad",
     state: "Telangana",
@@ -12,18 +15,17 @@ const properties = [
     roadWidth: 40,
     possession: "Immediate",
     isGated: false,
+    amenities: ["Parking", "Water", "Security", "Electricity", "Gym", "Club", "Park", "Road", "Swimming Pool"],
     image: "https://subhagruha.com/uploads/1653215609.jpeg",
     description: "Premium residential plot near IT hub with wide roads and clear title.",
     status: "available",
     featured: true,
     createdAt: "2026-02-01",
-     sellerName: "Srinivas Rao",
-    sellerType: "Agent",
-    contact: "9123456789",
   },
   {
     id: 2,
     title: "Open Land for Sale",
+    slug: "open-land-for-sale",
     location: "Shamshabad",
     city: "Hyderabad",
     state: "Telangana",
@@ -44,6 +46,7 @@ const properties = [
   {
     id: 3,
     title: "Luxury Corner Plot",
+    slug: "luxury-corner-plot",
     location: "Miyapur",
     city: "Hyderabad",
     state: "Telangana",
@@ -64,6 +67,7 @@ const properties = [
   {
     id: 4,
     title: "Luxury HMDA Plot in Kompally Gated Community",
+    slug: "luxury-hmda-plot-in-kompally-gated-community",
     location: "Near NH-44, Kompally",
     city: "Hyderabad",
     state: "Telangana",
@@ -92,6 +96,7 @@ const properties = [
   {
     id: 5,
     title: "Premium Villa Plot in Kukatpally",
+    slug: "premium-villa-plot-in-kukatpally",
     location: "Kukatpally",
     city: "Hyderabad",
     state: "Telangana",
@@ -112,6 +117,7 @@ const properties = [
   {
     id: 6,
     title: "Investment Plot in Adibatla",
+    slug: "investment-plot-in-adibatla",
     location: "Adibatla",
     city: "Hyderabad",
     state: "Telangana",
@@ -122,9 +128,10 @@ const properties = [
     roadWidth: 30,
     possession: "Immediate",
     isGated: false,
+    amenities: ["Water", "Electricity"],
     image: "https://static.360realtors.com/properties/photos/7590/floorplans/1751699090_0floorplansimage.webp",
     description: "Best investment plot near Pharma City with high growth potential and clear title.",
-    amenities: ["Water", "Electricity"],
+
     status: "sold",
     featured: false,
     createdAt: "2026-01-25"
@@ -132,6 +139,7 @@ const properties = [
   {
     id: 7,
     title: "Beachside Plot in Candolim",
+    slug: "beachside-plot-in-candolim",
     location: "Candolim",
     city: "Goa",
     state: "Goa",
@@ -152,6 +160,7 @@ const properties = [
   {
     id: 8,
     title: "Hillview Plot in Ooty",
+    slug: "hillview-plot-in-ooty",
     location: "Ooty Central",
     city: "Ooty",
     state: "Tamil Nadu",
@@ -172,6 +181,7 @@ const properties = [
   {
     id: 10,
     title: "Luxury Plot in Andheri East",
+    slug: "luxury-plot-in-andheri-east",
     location: "Andheri East",
     city: "Mumbai",
     state: "Maharashtra",
