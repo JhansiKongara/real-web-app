@@ -35,6 +35,7 @@ import {
 import { getAmenityIcon } from "@/app/lib/amenities";
 
 import { useRouter } from "next/navigation";
+import GalleryModal from "@/app/components/shared/GalleryModal";
 
 interface PropertyCardProps {
   property: Property;
@@ -52,6 +53,7 @@ export default function PropertyCard({
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showUnitDropdown, setShowUnitDropdown] = useState(false);
+  const [showGallery, setShowGallery] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -190,7 +192,11 @@ export default function PropertyCard({
         showUnitDropdown ? "dropdown-active" : ""
       }`}
     >
-      <div className="card-image">
+      <div
+        className="card-image"
+        onClick={() => setShowGallery(true)}
+        style={{ cursor: "pointer" }}
+      >
         {image && <img src={image} alt={title || "Property"} />}
 
         <div className="card-top-badges">
@@ -374,6 +380,19 @@ export default function PropertyCard({
           </button>
         </div>
       </div>
+
+      <GalleryModal
+        isOpen={showGallery}
+        onClose={() => setShowGallery(false)}
+        images={
+          property.image
+            ? Array.isArray(property.image)
+              ? property.image
+              : [property.image]
+            : []
+        }
+        title={title}
+      />
     </div>
   );
 }

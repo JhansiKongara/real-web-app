@@ -3,11 +3,11 @@ import properties from "@/app/lib/properties";
 import { Metadata } from "next";
 
 type Props = {
-  params: { city: string; slug: string };
+  params: Promise<{ city: string; slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { city, slug } = params;
+  const { city, slug } = await params;
 
   // Find the property
   let property = properties.find((p) => p.slug === slug);
