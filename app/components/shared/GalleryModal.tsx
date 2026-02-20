@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import "@/app/styles/GalleryModal.scss";
 
@@ -18,7 +19,12 @@ export default function GalleryModal({
   title,
 }: GalleryModalProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Swipe handling refs
   const touchStart = useRef<number | null>(null);
@@ -143,13 +149,13 @@ export default function GalleryModal({
   }, [activeIndex]);
 
   // --- Render Guards ---
-  if (!isOpen) return null;
+  if (!mounted || !isOpen) return null;
   if (!images || images.length === 0) return null;
 
   const currentImage = images[activeIndex];
   if (!currentImage) return null;
 
-  return (
+  return createPortal(
     <div
       className={`gallery-modal-overlay ${isOpen ? "is-open" : ""}`}
       onClick={onClose}
@@ -235,6 +241,7 @@ export default function GalleryModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

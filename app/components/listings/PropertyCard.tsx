@@ -194,34 +194,41 @@ export default function PropertyCard({
     >
       <div
         className="card-image"
-        onClick={() => setShowGallery(true)}
         style={{ cursor: "pointer" }}
+        onClick={() => setShowGallery(true)}
       >
         {image && <img src={image} alt={title || "Property"} />}
-
-        <div className="card-top-badges">
-          {/* Dynamic Label from JSON */}
-          {(property.label || property.status) && (
-            <div className="status-tag">
-              {property.label ||
-                (property.status === "available"
-                  ? "Plot For Sale"
-                  : property.status)}
-            </div>
-          )}
-
-          {imageCount !== undefined && imageCount > 0 && (
-            <div className="image-count">
-              <ImageIcon size={12} />
-              <span>{imageCount} Photos</span>
-            </div>
-          )}
-        </div>
-
-        <button className="fav-btn" title="Add to Favorites">
-          <Heart size={16} color="white" />
-        </button>
       </div>
+
+      <div className="card-top-badges">
+        {/* Dynamic Label from JSON */}
+        {(property.label || property.status) && (
+          <div className="status-tag">
+            {property.label ||
+              (property.status === "available"
+                ? "Plot For Sale"
+                : property.status)}
+          </div>
+        )}
+
+        {imageCount !== undefined && imageCount > 0 && (
+          <button
+            className="image-count-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowGallery(true);
+            }}
+            title="View Gallery"
+          >
+            <ImageIcon size={12} />
+            <span>{imageCount} Photos</span>
+          </button>
+        )}
+      </div>
+
+      <button className="fav-btn" title="Add to Favorites">
+        <Heart size={16} color="white" />
+      </button>
 
       <div className="card-content">
         {(title || location) && (

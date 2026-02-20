@@ -72,10 +72,50 @@
    ========================================= */
 
 /* Image Area - Handle rounded corners since parent overflow is visible */
+.card-top-badges {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 31;
+}
+
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 31;
+
+    &:hover {
+        background: #ec4899;
+        border-color: #ec4899;
+        box-shadow: 0 0 10px #ec4899;
+
+        svg {
+            fill: white;
+            stroke: white;
+        }
+    }
+}
+
 .card-image {
     position: relative;
     overflow: hidden;
-    border-radius: 16px 16px 0 0; /* Clip top corners */
+    border-radius: 16px 16px 0 0;
+    z-index: 1;
 
     img {
         width: 100%;
@@ -83,82 +123,61 @@
         object-fit: cover;
         transition: transform 0.8s ease;
     }
+}
 
-    .card-top-badges {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        display: flex;
-        align-items: center;
-        gap: 8px; // Consistent gap
-        z-index: 20;
-    }
-
-    .status-tag {
-        background: rgba(6, 182, 212, 0.95);
-        backdrop-filter: blur(4px);
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 0.65rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        white-space: nowrap;
-    }
-
-    .image-count {
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(4px);
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.65rem;
-        font-weight: 600;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        white-space: nowrap;
-
-        svg {
-            width: 10px;
-            height: 10px;
-        }
-    }
-
-    .fav-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 28px;
-        height: 28px;
-        border-radius: 50%;
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(4px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        cursor: pointer;
-        transition: all 0.2s;
-        z-index: 20;
-
-        &:hover {
-            background: #ec4899;
-            border-color: #ec4899;
-            box-shadow: 0 0 10px #ec4899;
-
-            svg {
-                fill: white;
-                stroke: white;
-            }
-        }
-    }
+.holo-overlay .card-image {
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
 }
 
 .holo-theme:hover .card-image img {
     transform: scale(1.1);
+}
+
+.status-tag {
+    background: rgba(6, 182, 212, 0.95);
+    backdrop-filter: blur(4px);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    white-space: nowrap;
+}
+
+.image-count-btn {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 31;
+
+    svg {
+        width: 12px;
+        height: 12px;
+        color: #00f3ff;
+    }
+
+    &:hover {
+        background: rgba(6, 182, 212, 0.2);
+        border-color: #00f3ff;
+        color: #00f3ff;
+        transform: translateY(-1px);
+    }
 }
 
 /* Content Area */
@@ -169,10 +188,10 @@
     gap: 0.4rem;
     flex: 1;
     z-index: 10;
-    width: 100%; // Constrain to card width
-    max-width: 100%; // Prevent expansion
-    min-width: 0; // Allow flexbox shrinking
-    box-sizing: border-box; // Include padding in width calculation
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 /* Header */
