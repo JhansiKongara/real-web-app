@@ -48,6 +48,7 @@ interface FiltersProps {
   onNoTJunctionToggle: (value: boolean) => void;
   onNoCornerPlotToggle: (value: boolean) => void;
   onOnlyVastuToggle: (value: boolean) => void;
+  showTitle?: boolean;
 }
 
 export default function Filters({
@@ -93,6 +94,7 @@ export default function Filters({
   onNoTJunctionToggle,
   onNoCornerPlotToggle,
   onOnlyVastuToggle,
+  showTitle = true,
 }: FiltersProps) {
   const amenitiesList = ["All", ...AMENITY_OPTIONS];
   const propertyTypes = ["All", "Residential", "Villa", "Farm", "Commercial"];
@@ -174,18 +176,20 @@ export default function Filters({
       : `${value}`;
 
   return (
-    <div className="bg-[var(--card)] backdrop-blur-[12px] border-r border-[var(--primary)]/20 w-full p-6 pb-10 h-full overflow-y-auto shadow-[10px_0_30px_-15px_rgba(0,0,0,0.5)] text-[var(--foreground)] scrollbar-hide transition-colors duration-300">
-      <div className="sticky -top-6 z-20 bg-[var(--card)]/95 backdrop-blur-md px-6 py-4 -mx-6 mb-6 flex justify-between items-center border-b-2 border-[var(--primary)]/20 gap-2.5">
-        <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
-          Filters
-        </h3>
-        <button
-          className="bg-transparent border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] transition-colors"
-          onClick={handleReset}
-        >
-          <RotateCcw size={14} /> Reset
-        </button>
-      </div>
+    <div className="bg-[var(--card)] backdrop-blur-[12px] border-r border-[var(--primary)]/20 w-full p-6 pb-10 h-full overflow-y-auto shadow-[10px_0_30px_-15px_rgba(0,0,0,0.5)] text-[var(--foreground)] transition-colors duration-300">
+      {showTitle && (
+        <div className="sticky -top-6 z-20 bg-[var(--card)]/95 backdrop-blur-md px-6 py-4 -mx-6 mb-6 flex justify-between items-center border-b-2 border-[var(--primary)]/20 gap-2.5">
+          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
+            Filters
+          </h3>
+          <button
+            className="bg-transparent border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] transition-colors"
+            onClick={handleReset}
+          >
+            <RotateCcw size={14} /> Reset
+          </button>
+        </div>
+      )}
 
       {/* SORT SECTION */}
       <div className="mb-[30px] relative z-[50]">

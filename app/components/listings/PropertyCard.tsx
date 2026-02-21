@@ -164,7 +164,7 @@ export default function PropertyCard({
 
   return (
     <div
-      className={`relative flex flex-col w-full min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--card)] backdrop-blur-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.3)] hover:border-[var(--primary)] group overflow-visible h-[460px] ${
+      className={`relative flex flex-col w-full min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--card)] backdrop-blur-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.3)] hover:border-[var(--primary)] group overflow-visible h-[460px] cursor-pointer ${
         showUnitDropdown ? "z-[9999]" : "z-0"
       }`}
     >

@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 w-full h-[55px] z-[4000] flex justify-between items-center px-5 md:px-10 bg-[var(--card)] shadow-[0_4px_10px_rgba(0,0,0,0.15)] border-b-2"
+        className="fixed top-0 left-0 w-full h-12 md:h-[55px] z-[4000] flex justify-between items-center px-5 md:px-10 bg-[var(--card)] shadow-[0_4px_10px_rgba(0,0,0,0.15)] border-b-2"
         style={{
           borderImage:
             "linear-gradient(to right, var(--primary), var(--secondary), var(--accent)) 1",

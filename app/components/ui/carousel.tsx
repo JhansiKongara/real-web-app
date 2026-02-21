@@ -13,7 +13,7 @@ export default function Carousel() {
   const featuredSlides = properties.filter((item) => item.featured);
 
   return (
-    <div className="w-full mt-[30px] font-['Outfit']">
+    <div className="w-full mt-0 md:mt-[30px] font-['Outfit']">
       <div className="relative w-full max-w-[1400px] mx-auto px-5 lg:mt-[15px] md:mt-[5px] sm:px-[5px]">
         <SearchBar />
 

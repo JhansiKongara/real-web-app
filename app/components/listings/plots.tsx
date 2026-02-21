@@ -54,7 +54,7 @@ export default function Plots() {
   };
 
   return (
-    <div className="w-full py-5 flex flex-col gap-6 bg-transparent">
+    <div className="w-full md:py-5 pt-0 pb-5 flex flex-col md:gap-6 gap-3 bg-transparent">
       <HorizontalCarousel
         title={`Available Plot ${
           searchTerm ? `(Search: "${searchTerm}")` : ""

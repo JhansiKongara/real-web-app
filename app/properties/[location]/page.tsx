@@ -270,7 +270,7 @@ export default function Listings() {
   ]);
 
   return (
-    <div className="flex flex-col lg:flex-row p-0 gap-0 mt-0 bg-[var(--background)] min-h-0 relative lg:h-[calc(100vh-173.5px)] lg:overflow-hidden">
+    <div className="flex flex-col lg:flex-row p-0 gap-0 mt-0 bg-[var(--background)] min-h-0 relative lg:h-[calc(100vh-120px)] lg:overflow-hidden">
       {/* MOBILE OVERLAY */}
       {showFilters && (
         <div
@@ -281,10 +281,10 @@ export default function Listings() {
 
       {/* LEFT SIDE FILTERS */}
       <div
-        className={`fixed lg:relative top-[55px] lg:top-0 right-[-100%] lg:right-0 w-full lg:w-[320px] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] z-[2000] lg:z-[100] h-[calc(100%-55px)] lg:h-full bg-[var(--card)] lg:bg-transparent flex flex-col ${showFilters ? "right-0" : ""}`}
+        className={`fixed lg:relative top-12 lg:top-0 ${showFilters ? "right-0" : "right-[-100%]"} lg:right-0 w-full lg:w-[320px] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] z-[2000] lg:z-[100] h-[calc(100%-48px)] lg:h-full bg-[var(--card)] lg:bg-[var(--background)]/40 lg:backdrop-blur-sm flex flex-col border-r border-[var(--primary)]/10`}
       >
-        <div className="flex lg:hidden justify-between items-center p-6 border-b border-[var(--primary)]/10">
-          <h3 className="text-[var(--foreground)] m-0 uppercase font-bold">
+        <div className="flex lg:hidden justify-between items-center p-6 bg-[var(--card)] border-b border-[var(--primary)]/20 shadow-sm">
+          <h3 className="text-[var(--foreground)] m-0 uppercase font-bold tracking-wider">
             Filters
           </h3>
           <button
@@ -295,50 +295,65 @@ export default function Listings() {
           </button>
         </div>
 
-        <Filters
-          sortType={sortType}
-          selectedAmenities={selectedAmenities}
-          selectedType={selectedType}
-          selectedApproval={selectedApproval}
-          selectedFacing={selectedFacing}
-          selectedStatus={selectedStatus}
-          selectedRoadWidth={selectedRoadWidth}
-          selectedPossession={selectedPossession}
-          selectedOwnership={selectedOwnership}
-          selectedRoadType={selectedRoadType}
-          selectedSellerType={selectedSellerType}
-          isGatedOnly={isGatedOnly}
-          isCornerPlot={isCornerPlot}
-          noRoadHit={noRoadHit}
-          onlyRegularShape={onlyRegularShape}
-          noTJunction={noTJunction}
-          noCornerPlot={noCornerPlot}
-          onlyVastu={onlyVastu}
-          areaUnit={areaUnit}
-          priceRange={priceRange}
-          areaRange={areaRange}
-          onSortChange={setSortType}
-          onAmenitiesChange={setSelectedAmenities}
-          onTypeChange={setSelectedType}
-          onApprovalChange={setSelectedApproval}
-          onFacingChange={setSelectedFacing}
-          onStatusChange={setSelectedStatus}
-          onRoadWidthChange={setSelectedRoadWidth}
-          onPossessionChange={setSelectedPossession}
-          onOwnershipChange={setSelectedOwnership}
-          onRoadTypeChange={setSelectedRoadType}
-          onSellerTypeChange={setSelectedSellerType}
-          onGatedToggle={setIsGatedOnly}
-          onCornerPlotToggle={setIsCornerPlot}
-          onNoRoadHitToggle={setNoRoadHit}
-          onOnlyRegularShapeToggle={setOnlyRegularShape}
-          onNoTJunctionToggle={setNoTJunction}
-          onNoCornerPlotToggle={setNoCornerPlot}
-          onOnlyVastuToggle={setOnlyVastu}
-          onAreaUnitChange={setAreaUnit}
-          onPriceChange={setPriceRange}
-          onAreaChange={setAreaRange}
-        />
+        <div className="hidden lg:flex justify-between items-center p-6 pb-4 bg-gradient-to-r from-[var(--card)] to-[var(--primary)]/10 border-b-2 border-[var(--primary)]/30">
+          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
+            Filters
+          </h3>
+          <button
+            className="bg-[var(--primary)]/10 border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-1.5 rounded-lg transition-all"
+            onClick={clearAllFilters}
+          >
+            <RotateCcw size={14} /> Reset
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-hidden">
+          <Filters
+            showTitle={false}
+            sortType={sortType}
+            selectedAmenities={selectedAmenities}
+            selectedType={selectedType}
+            selectedApproval={selectedApproval}
+            selectedFacing={selectedFacing}
+            selectedStatus={selectedStatus}
+            selectedRoadWidth={selectedRoadWidth}
+            selectedPossession={selectedPossession}
+            selectedOwnership={selectedOwnership}
+            selectedRoadType={selectedRoadType}
+            selectedSellerType={selectedSellerType}
+            isGatedOnly={isGatedOnly}
+            isCornerPlot={isCornerPlot}
+            noRoadHit={noRoadHit}
+            onlyRegularShape={onlyRegularShape}
+            noTJunction={noTJunction}
+            noCornerPlot={noCornerPlot}
+            onlyVastu={onlyVastu}
+            areaUnit={areaUnit}
+            priceRange={priceRange}
+            areaRange={areaRange}
+            onSortChange={setSortType}
+            onAmenitiesChange={setSelectedAmenities}
+            onTypeChange={setSelectedType}
+            onApprovalChange={setSelectedApproval}
+            onFacingChange={setSelectedFacing}
+            onStatusChange={setSelectedStatus}
+            onRoadWidthChange={setSelectedRoadWidth}
+            onPossessionChange={setSelectedPossession}
+            onOwnershipChange={setSelectedOwnership}
+            onRoadTypeChange={setSelectedRoadType}
+            onSellerTypeChange={setSelectedSellerType}
+            onGatedToggle={setIsGatedOnly}
+            onCornerPlotToggle={setIsCornerPlot}
+            onNoRoadHitToggle={setNoRoadHit}
+            onOnlyRegularShapeToggle={setOnlyRegularShape}
+            onNoTJunctionToggle={setNoTJunction}
+            onNoCornerPlotToggle={setNoCornerPlot}
+            onOnlyVastuToggle={setOnlyVastu}
+            onAreaUnitChange={setAreaUnit}
+            onPriceChange={setPriceRange}
+            onAreaChange={setAreaRange}
+          />
+        </div>
 
         <div className="flex lg:hidden gap-3 p-5 bg-[var(--card)] border-t border-[var(--primary)]/10">
           <button
@@ -357,7 +372,7 @@ export default function Listings() {
       </div>
 
       {/* RIGHT SIDE CONTENT */}
-      <div className="flex-1 flex flex-col gap-4 p-8 lg:p-2.5 lg:px-5 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable scrollbar-hide">
+      <div className="flex-1 flex flex-col gap-2 md:gap-4 pt-1 pb-4 px-3 md:p-8 lg:p-2.5 lg:px-5 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable">
         <div className="bg-[var(--card)] lg:p-4 lg:px-6 rounded-2xl lg:border border-[var(--border)] lg:shadow-sm p-0 border-none shadow-none">
           {/* DESKTOP VIEW */}
           <div className="hidden lg:flex justify-between items-center gap-4">
@@ -374,7 +389,7 @@ export default function Listings() {
           </div>
 
           {/* MOBILE VIEW ACTIONS */}
-          <div className="lg:hidden flex items-center w-full h-[52px] bg-[var(--card)] fixed top-[55px] left-0 z-[1000] px-2.5 border-b-2 border-[var(--primary)]/30 shadow-lg before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-[1.5px] before:bg-gradient-to-r before:from-[var(--primary)]/50 before:to-[var(--secondary)]/50 before:shadow-[0_0_8px_rgba(var(--primary-rgb),0.2)]">
+          <div className="lg:hidden flex items-center w-full h-[52px] bg-gradient-to-r from-[var(--card)] via-[var(--background)]/95 to-[var(--card)] backdrop-blur-xl fixed top-12 left-0 z-[1000] px-2.5 border-b-2 border-[var(--primary)]/50 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
             <button
               className="flex-1 h-full bg-transparent border-none text-[var(--muted)] text-[0.7rem] flex flex-col items-center justify-center gap-0.5 font-bold uppercase relative active:bg-[var(--primary)]/10"
               onClick={clearAllFilters}
@@ -445,7 +460,7 @@ export default function Listings() {
           </div>
         </div>
 
-        <div className="grid gap-6 grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 md:pt-[105px] pt-[105px] lg:pt-0">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 md:pt-[105px] pt-[52px] lg:pt-0">
           {filteredData.length === 0 ? (
             <div className="col-span-full text-center py-16 px-5 bg-[var(--card)] rounded-[20px] text-[var(--muted)] border border-[var(--border)]">
               <h3 className="text-lg font-bold">
@@ -461,7 +476,7 @@ export default function Listings() {
         </div>
 
         {/* Dynamic SEO Content Section */}
-        <section className="mt-2.5 pb-0 flex justify-center lg:mt-0 lg:pb-4">
+        <section className="mt-2.5 pb-4 lg:pb-[100px] flex justify-center lg:mt-0">
           <div className="relative bg-[var(--card)] rounded-xl lg:rounded-[20px] p-4 lg:p-6 lg:px-10 max-w-[1280px] w-[95%] lg:w-full overflow-hidden shadow-2xl border border-[var(--primary)]/10 before:absolute before:inset-[-50%] before:bg-[radial-gradient(circle_at_30%_30%,rgba(var(--primary-rgb),0.15)_0%,transparent_40%),radial-gradient(circle_at_70%_70%,rgba(var(--secondary-rgb),0.15)_0%,transparent_40%)] before:opacity-80 before:z-0">
             <div className="relative z-[1] text-center mb-2 lg:mb-4">
               <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-lg lg:rounded-xl flex items-center justify-center text-base lg:text-xl m-0 mx-auto mb-1.5 lg:mb-2 shadow-lg">

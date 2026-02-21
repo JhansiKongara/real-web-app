@@ -7,7 +7,7 @@ export default function Home() {
       <Carousel />
 
       {/* SEO Content Section */}
-      <section className="relative mx-auto my-[20px] lg:mt-[60px] lg:mb-[50px] max-w-[1200px] w-[92%] text-center p-6 md:p-10 bg-[var(--card)] rounded-[24px] border-2 border-[var(--border)] shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
+      <section className="relative mx-auto mt-0.5 mb-0 lg:mt-[60px] lg:mb-[50px] max-w-[1200px] w-[92%] text-center p-6 md:p-10 bg-[var(--card)] rounded-[24px] border-2 border-[var(--border)] shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden">
         {/* Decorative blobs */}
         <div className="absolute -top-[50px] -left-[50px] w-[200px] h-[200px] bg-[radial-gradient(circle,rgba(var(--primary-rgb),0.1)_0%,transparent_70%)] rounded-full -z-[1]"></div>
         <div className="absolute -bottom-[50px] -right-[50px] w-[200px] h-[200px] bg-[radial-gradient(circle,rgba(var(--secondary-rgb),0.1)_0%,transparent_70%)] rounded-full -z-[1]"></div>

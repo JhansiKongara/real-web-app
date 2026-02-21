@@ -32,11 +32,11 @@ export default function HorizontalCarousel({
 
   return (
     <div className="relative w-full flex flex-col items-center mb-0 before:content-[''] before:absolute before:top-1/4 before:left-1/2 before:-translate-x-1/2 before:w-[60%] before:h-[300px] before:bg-[radial-gradient(circle,rgba(var(--primary),0.05)_0%,transparent_70%)] before:pointer-events-none before:-z-10">
-      <div className="w-full max-w-[1400px] px-5 flex flex-col items-center text-center mb-1">
+      <div className="w-full max-w-[1400px] px-5 flex flex-col items-center text-center md:mb-1 mb-0">
         <h2 className="font-['Outfit'] text-[1.2rem] md:text-[1.8rem] font-extrabold m-0 mb-1 uppercase tracking-[1.5px] bg-gradient-to-r from-[var(--foreground)] via-[var(--primary)] to-[var(--secondary)] bg-[length:200%_auto] bg-clip-text text-transparent animate-[shine_5s_linear_infinite] whitespace-nowrap">
           {title}
         </h2>
-        <div className="flex items-center justify-center gap-[15px] w-full mb-1.5">
+        <div className="flex items-center justify-center gap-[15px] w-full md:mb-1.5 mb-0.5">
           <div className="h-[2px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-60"></div>
           <div className="w-2 h-2 bg-[var(--primary)] rounded-full shadow-[0_0_15px_var(--primary)]"></div>
           <div className="h-[2px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent opacity-60"></div>
