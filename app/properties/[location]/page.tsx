@@ -476,7 +476,7 @@ export default function Listings() {
         </div>
 
         {/* Dynamic SEO Content Section */}
-        <section className="mt-2.5 pb-4 lg:pb-[100px] flex justify-center lg:mt-0">
+        <section className="mt-2.5 pb-4 lg:pb-[40px] flex justify-center lg:mt-0">
           <div className="relative bg-[var(--card)] rounded-xl lg:rounded-[20px] p-4 lg:p-6 lg:px-10 max-w-[1280px] w-[95%] lg:w-full overflow-hidden shadow-2xl border border-[var(--primary)]/10 before:absolute before:inset-[-50%] before:bg-[radial-gradient(circle_at_30%_30%,rgba(var(--primary-rgb),0.15)_0%,transparent_40%),radial-gradient(circle_at_70%_70%,rgba(var(--secondary-rgb),0.15)_0%,transparent_40%)] before:opacity-80 before:z-0">
             <div className="relative z-[1] text-center mb-2 lg:mb-4">
               <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-lg lg:rounded-xl flex items-center justify-center text-base lg:text-xl m-0 mx-auto mb-1.5 lg:mb-2 shadow-lg">
