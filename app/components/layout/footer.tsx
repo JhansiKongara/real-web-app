@@ -1,8 +1,17 @@
 "use client";
+import { usePathname } from "next/navigation";
 
 function Footer() {
+  const pathname = usePathname();
+  // Determine if on property detail page (has sticky CTA bar)
+  const isPropertyDetail = pathname?.startsWith("/property/");
+  // Add padding bottom on mobile when on property detail page to avoid overlapping the sticky CTA bar
+  const mobilePaddingClass = isPropertyDetail ? "pb-[80px]" : "pb-[10px]";
+
   return (
-    <footer className="footer bg-[var(--card)] text-[var(--foreground)] px-10 flex flex-wrap justify-between gap-1 relative w-full z-[100] md:fixed md:bottom-0 md:left-0 md:flex-row flex-col md:text-left text-center md:pt-3 md:pb-0 py-[10px] md:px-[40px] px-[20px] md:gap-[5px] gap-[20px] transition-colors duration-300">
+    <footer
+      className={`footer bg-[var(--card)] text-[var(--foreground)] px-10 flex flex-wrap justify-between gap-1 relative w-full z-[80] md:fixed md:bottom-0 md:left-0 md:flex-row flex-col md:text-left text-center md:pt-3 md:pb-0 pt-[10px] ${mobilePaddingClass} md:px-[40px] px-[20px] md:gap-[5px] gap-[20px] transition-all duration-300`}
+    >
       {/* Stylish Gradient Separator */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] via-[var(--secondary)] to-transparent opacity-100 shadow-[0_0_15px_var(--primary)] z-10 transition-all duration-300"></div>
 

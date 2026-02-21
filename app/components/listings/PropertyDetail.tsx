@@ -11,6 +11,8 @@ import {
   Ruler,
   Share2,
   Heart,
+  MessageCircle,
+  PhoneCall,
 } from "lucide-react";
 
 import properties from "@/app/lib/properties";
@@ -158,106 +160,250 @@ export default function PropertyDetail() {
 
   return (
     <div
-      className="min-h-screen bg-[var(--background)] text-[var(--foreground)] font-['Outfit'] pb-16 flex flex-col items-center transition-colors duration-300"
+      className="bg-[var(--background)] text-[var(--foreground)] font-['Outfit'] pb-[76px] md:pb-16 flex flex-col items-center transition-colors duration-300"
       onClick={() => setShowUnitDropdown(false)}
     >
-      {/* Sticky Premium Header */}
-      <div className="w-full sticky top-0 z-[1000] bg-[var(--card)]/95 backdrop-blur-md border-b border-[var(--primary)]/20 py-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-        <div className="max-w-[1400px] w-full mx-auto px-10 flex flex-col md:flex-row justify-between items-center md:items-center gap-4 md:gap-0">
-          <div className="flex flex-col gap-1 w-full md:w-auto">
-            <h1 className="text-2xl md:text-[1.6rem] font-bold text-[var(--foreground)] leading-tight tracking-tight">
+      {/* ── Smart Sticky Header Bar ── */}
+      {/* Desktop spacer so content doesn't go under the fixed bar */}
+      <div className="hidden lg:block w-full h-[60px] shrink-0" />
+      <div className="w-full sticky top-[48px] md:top-[55px] lg:fixed lg:top-[55px] lg:left-0 z-[1000] bg-gradient-to-r from-[var(--card)] via-[var(--background)]/95 to-[var(--card)] backdrop-blur-xl border-b-2 border-[var(--primary)]/40 shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300">
+        {/* ══ MOBILE HEADER ══ */}
+        <div className="md:hidden">
+          {/* Row 1: Title + Location */}
+          <div className="flex flex-col items-center justify-center px-4 pt-2 pb-1 border-b border-[var(--border)]/40 text-center">
+            <div className="text-[0.9rem] font-black text-[var(--foreground)] uppercase tracking-tight line-clamp-2 leading-tight w-full">
               {property.title}
-            </h1>
-            <div className="flex items-center gap-1.5 text-[var(--muted)] text-sm font-medium">
-              <MapPin size={16} className="text-[var(--primary)]" />{" "}
+            </div>
+            <div className="flex items-center justify-center gap-1 text-[var(--muted)] text-[0.65rem] font-semibold">
+              <MapPin size={10} className="text-[var(--primary)] shrink-0" />
+              {property.location}, {property.city}
+            </div>
+          </div>
+          {/* Row 2: Back | Price | Share | Save */}
+          <div className="flex items-stretch h-[50px]">
+            {/* Back */}
+            <button
+              onClick={() => router.back()}
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer"
+            >
+              <ChevronDown
+                size={16}
+                className="rotate-90 text-[var(--primary)]"
+              />
+              <span className="text-[0.6rem] font-bold uppercase">Back</span>
+            </button>
+            <div className="w-px h-4 bg-[var(--border)] self-center" />
+            {/* Price */}
+            <div className="flex-[2] flex flex-col items-center justify-center">
+              <span className="text-[0.55rem] text-[var(--muted)] font-bold uppercase tracking-widest leading-none">
+                Total Price
+              </span>
+              <span className="text-[0.95rem] font-black text-[var(--primary)] leading-tight">
+                {formatPrice(property.price)}
+              </span>
+            </div>
+            <div className="w-px h-4 bg-[var(--border)] self-center" />
+            {/* Share */}
+            <button
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer"
+              onClick={() => {
+                const slugText =
+                  property.slug ||
+                  property.title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-|-$)/g, "");
+                const citySlug = property.city
+                  .toLowerCase()
+                  .replace(/\s+/g, "-");
+                const shareUrl = `${window.location.origin}/property/${citySlug}/${slugText}-${property.id}`;
+                if (navigator.share) {
+                  navigator
+                    .share({ title: property.title, url: shareUrl })
+                    .catch(console.error);
+                } else {
+                  navigator.clipboard.writeText(shareUrl);
+                }
+              }}
+            >
+              <Share2 size={14} className="text-[var(--primary)]" />
+              <span className="text-[0.6rem] font-bold uppercase">Share</span>
+            </button>
+            <div className="w-px h-4 bg-[var(--border)] self-center" />
+            {/* Save */}
+            <button className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-transparent border-none text-[var(--muted)] hover:text-rose-500 hover:bg-rose-500/10 transition-all cursor-pointer group/hrt">
+              <Heart
+                size={14}
+                className="text-[var(--primary)] group-hover/hrt:text-rose-500 group-hover/hrt:fill-rose-500 transition-colors"
+              />
+              <span className="text-[0.6rem] font-bold uppercase">Save</span>
+            </button>
+          </div>
+        </div>
+
+        {/* ══ DESKTOP HEADER (single row) ══ */}
+        <div className="hidden md:flex max-w-[1400px] mx-auto items-stretch h-[56px] px-1 gap-0">
+          {/* Back */}
+          <button
+            onClick={() => router.back()}
+            className="flex flex-col items-center justify-center gap-0.5 px-3 min-w-[48px] bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer shrink-0"
+          >
+            <ChevronDown
+              size={18}
+              className="rotate-90 text-[var(--primary)]"
+            />
+            <span className="text-[0.7rem] font-bold uppercase">Back</span>
+          </button>
+
+          <div className="w-px h-4 bg-[var(--border)] self-center" />
+
+          {/* Title + Location */}
+          <div className="flex flex-1 flex-col justify-center px-3 min-w-0">
+            <div className="text-[0.9rem] font-black text-[var(--foreground)] uppercase tracking-tight truncate leading-tight">
+              {property.title}
+            </div>
+            <div className="flex items-center gap-1 text-[var(--muted)] text-[0.7rem] font-semibold truncate">
+              <MapPin size={11} className="text-[var(--primary)] shrink-0" />
               {property.location}, {property.city}
             </div>
           </div>
 
-          <div className="flex flex-col items-start md:items-end text-left md:text-right w-full md:w-auto">
-            <div className="text-3xl font-extrabold text-[var(--foreground)] leading-none mb-1">
+          <div className="w-px h-4 bg-[var(--border)] self-center" />
+
+          {/* Price */}
+          <div className="flex flex-col items-center justify-center px-3 shrink-0">
+            <span className="text-[0.6rem] text-[var(--muted)] font-bold uppercase tracking-widest leading-none">
+              Price
+            </span>
+            <span className="text-[1rem] font-black text-[var(--primary)] leading-tight">
               {formatPrice(property.price)}
+            </span>
+          </div>
+
+          <div className="w-px h-4 bg-[var(--border)] self-center" />
+
+          {/* Area chip + unit switcher */}
+          <div
+            className="relative flex flex-col items-center justify-center px-3 cursor-pointer group shrink-0 hover:bg-[var(--primary)]/5 transition-all"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowUnitDropdown(!showUnitDropdown);
+            }}
+          >
+            <span className="text-[0.6rem] text-[var(--muted)] font-bold uppercase tracking-widest leading-none">
+              Area
+            </span>
+            <div className="flex items-center gap-0.5 text-[0.9rem] font-black text-[var(--foreground)]">
+              <Ruler size={12} className="text-[var(--primary)]" />
+              {getConvertedArea()}
+              <span className="text-[0.7rem] font-semibold text-[var(--muted)]">
+                {unitLabels[unit]}
+              </span>
+              <ChevronDown
+                size={13}
+                className="text-[var(--primary)] transition-transform duration-300 group-hover:rotate-180"
+              />
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2.5 relative">
-                <div className="flex items-center gap-1.5 text-[var(--foreground)] font-semibold text-sm">
-                  <Ruler size={14} className="text-[var(--muted)]" />
-                  <span>
-                    {getConvertedArea()} {unitLabels[unit]}
-                  </span>
-                </div>
-                <div className="relative">
+            {showUnitDropdown && (
+              <div className="absolute top-[calc(100%+2px)] left-0 bg-[var(--card)] border border-[var(--primary)]/40 rounded-xl p-1.5 min-w-[130px] shadow-[0_15px_40px_rgba(0,0,0,0.8),0_0_20px_rgba(var(--primary-rgb),0.15)] z-[1001] flex flex-col gap-0.5 backdrop-blur-2xl">
+                {Object.keys(unitLabels).map((key) => (
                   <button
-                    className="flex items-center gap-1 bg-[var(--background)]/80 border border-[var(--border)] text-[var(--foreground)] px-2.5 py-1 rounded text-[0.8rem] font-bold hover:bg-[var(--primary)]/10 hover:border-[var(--primary)] transition-all"
+                    key={key}
+                    className={`w-full text-left px-3 py-2 text-sm font-bold border-none cursor-pointer rounded-lg transition-all hover:bg-[var(--primary)]/15 ${
+                      unit === key
+                        ? "text-[var(--primary)] bg-[var(--primary)]/10"
+                        : "text-[var(--muted)] hover:text-[var(--foreground)]"
+                    }`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setShowUnitDropdown(!showUnitDropdown);
+                      setUnit(key);
+                      setShowUnitDropdown(false);
                     }}
                   >
-                    {unitLabels[unit]} <ChevronDown size={14} />
+                    {unitLabels[key]}
                   </button>
-                  {showUnitDropdown && (
-                    <div className="absolute top-full mt-2 right-0 bg-[var(--card)] border border-[var(--border)] rounded p-1 min-w-[110px] shadow-2xl z-[1001] flex flex-col gap-px animate-in fade-in slide-in-from-bottom-2">
-                      {Object.keys(unitLabels).map((key) => (
-                        <button
-                          key={key}
-                          className={`w-full text-left p-2.5 text-[0.85rem] font-semibold rounded-sm transition-all hover:bg-[var(--primary)]/10 ${unit === key ? "text-[var(--primary)]" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
-                          onClick={() => {
-                            setUnit(key);
-                            setShowUnitDropdown(false);
-                          }}
-                        >
-                          {unitLabels[key]}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                ))}
               </div>
-              <div className="w-px h-3.5 bg-[var(--border)]" />
-              <div className="text-[0.85rem] text-[var(--primary)] font-bold uppercase tracking-wider">
-                {getUnitPrice()}
-              </div>
+            )}
+          </div>
+
+          {/* Rate */}
+          <div className="flex flex-col items-center justify-center px-3 shrink-0">
+            <span className="text-[0.6rem] text-[var(--muted)] font-bold uppercase tracking-widest leading-none">
+              Rate
+            </span>
+            <div className="flex items-center gap-0.5 text-[0.8rem] font-bold text-[var(--foreground)]">
+              <Tag size={11} className="text-[var(--primary)] shrink-0" />
+              <span className="truncate max-w-[100px]">{getUnitPrice()}</span>
             </div>
           </div>
+
+          <div className="w-px h-4 bg-[var(--border)] self-center" />
+
+          {/* Share */}
+          <button
+            className="flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-all cursor-pointer shrink-0"
+            onClick={() => {
+              const slugText =
+                property.slug ||
+                property.title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/(^-|-$)/g, "");
+              const citySlug = property.city.toLowerCase().replace(/\s+/g, "-");
+              const shareUrl = `${window.location.origin}/property/${citySlug}/${slugText}-${property.id}`;
+              if (navigator.share) {
+                navigator
+                  .share({ title: property.title, url: shareUrl })
+                  .catch(console.error);
+              } else {
+                navigator.clipboard.writeText(shareUrl);
+              }
+            }}
+          >
+            <Share2 size={14} className="text-[var(--primary)]" />
+            <span className="text-[0.7rem] font-bold uppercase">Share</span>
+          </button>
+
+          {/* Save */}
+          <button className="flex flex-col items-center justify-center gap-0.5 px-3 min-w-[44px] bg-transparent border-none text-[var(--muted)] hover:text-rose-500 hover:bg-rose-500/10 transition-all cursor-pointer shrink-0 group/hrt">
+            <Heart
+              size={14}
+              className="text-[var(--primary)] group-hover/hrt:text-rose-500 group-hover/hrt:fill-rose-500 transition-colors"
+            />
+            <span className="text-[0.7rem] font-bold uppercase">Save</span>
+          </button>
         </div>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-8 max-w-[1400px] w-full px-5 mt-8">
         {/* Left Column */}
         <div className="flex flex-col gap-8">
-          <div className="relative rounded-xl overflow-hidden h-[300px] md:h-[500px] bg-black border border-[var(--primary)]/40 shadow-[0_0_20px_rgba(var(--primary-rgb),0.2),inset_0_0_15px_rgba(var(--primary-rgb),0.1)] group">
-            <img
-              src={
-                Array.isArray(property.image)
-                  ? property.image[0]
-                  : property.image
-              }
-              alt={property.title}
-              className="w-full h-full object-cover transition-transform duration-700 cursor-pointer group-hover:scale-105"
-              onClick={() => setShowGallery(true)}
-            />
-
-            {/* Corner accents */}
-            <div className="absolute inset-0 pointer-events-none border-2 border-transparent bg-[linear-gradient(45deg,rgba(var(--primary-rgb),0.5)_0%,transparent_20%)_top_left/100%_100%_no-repeat,linear-gradient(-135deg,rgba(var(--primary-rgb),0.5)_0%,transparent_20%)_bottom_right/100%_100%_no-repeat] opacity-50 z-[5]"></div>
-
-            <div className="absolute top-5 left-5 flex gap-3 z-10">
-              <button
-                className="bg-black/70 backdrop-blur-md text-[var(--primary)] border border-[var(--primary)]/50 px-3 py-1.5 rounded text-xs font-bold flex items-center gap-1.5 shadow-lg transition-all hover:bg-black hover:scale-105"
-                onClick={() => setShowGallery(true)}
+          {/* Gallery Strip */}
+          <div
+            className="grid gap-2 rounded-2xl overflow-hidden cursor-pointer group"
+            style={{ gridTemplateColumns: "2fr 1fr 1fr", height: "240px" }}
+            onClick={() => setShowGallery(true)}
+          >
+            {galleryImages.slice(0, 3).map((img, idx) => (
+              <div
+                key={idx}
+                className={`relative overflow-hidden ${idx === 0 ? "row-span-1" : ""}`}
               >
-                <ImageIcon size={16} /> {galleryImages.length}
-              </button>
-            </div>
-
-            <div className="absolute top-5 right-5 flex gap-3 z-10">
-              <button className="w-10 h-10 rounded-full bg-[var(--background)]/70 backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] flex items-center justify-center transition-all hover:bg-[var(--primary)]/20 hover:border-[var(--primary)] hover:text-[var(--primary)] hover:scale-110">
-                <Share2 size={18} />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-[var(--background)]/70 backdrop-blur-md border border-[var(--border)] text-[var(--foreground)] flex items-center justify-center transition-all hover:bg-[var(--accent)]/20 hover:border-[var(--accent)] hover:text-[var(--accent)] hover:scale-110">
-                <Heart size={18} />
-              </button>
-            </div>
+                <img
+                  src={img}
+                  alt={`${property.title} ${idx + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {idx === 2 && galleryImages.length > 3 && (
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-1">
+                    <ImageIcon size={24} className="text-[var(--primary)]" />
+                    <span className="text-white text-sm font-black">
+                      +{galleryImages.length - 3} Photos
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
           {/* Overview */}
@@ -358,8 +504,8 @@ export default function PropertyDetail() {
           </section>
         </div>
 
-        {/* Right Column - Agent Card */}
-        <div className="relative lg:sticky lg:top-[110px] h-fit order-first lg:order-none">
+        {/* Right Column - Agent Card (desktop only — mobile uses sticky bottom CTA bar) */}
+        <div className="hidden lg:block relative lg:sticky lg:top-[110px] h-fit">
           <div className="bg-gradient-to-br from-[var(--card)]/95 to-[var(--background)]/95 backdrop-blur-2xl p-8 rounded-[20px] border border-[var(--primary)]/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-100 transition-all duration-300">
             <h2 className="text-sm font-extrabold text-[var(--muted)] uppercase tracking-[2px] mb-6 flex items-center gap-2.5 after:flex-1 after:h-px after:bg-[var(--muted)]/20">
               Agent Information
@@ -414,6 +560,35 @@ export default function PropertyDetail() {
         images={galleryImages}
         title={property.title}
       />
+
+      {/* ── Mobile Sticky Bottom CTA Bar ── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[999] flex items-stretch h-[64px] bg-[var(--card)]/95 backdrop-blur-xl border-t-2 border-[var(--primary)]/30 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+        {/* Enquiry Button */}
+        <button className="flex-1 flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--background)] font-extrabold text-[0.9rem] uppercase tracking-wider transition-all active:scale-95 cursor-pointer">
+          <MessageCircle size={18} strokeWidth={2.5} />
+          Enquiry
+        </button>
+
+        {/* Divider */}
+        <div className="w-px bg-[var(--primary)]/30 shrink-0" />
+
+        {/* Contact Card */}
+        <button className="flex-1 flex items-center justify-center gap-3 px-4 bg-transparent hover:bg-[var(--primary)]/5 transition-all active:scale-[0.98] cursor-pointer">
+          {/* Call icon replacing avatar */}
+          <div className="w-9 h-9 shrink-0 rounded-full bg-[var(--primary)]/10 flex items-center justify-center text-[var(--primary)] border border-[var(--primary)]/20 shadow-[0_0_10px_rgba(var(--primary-rgb),0.1)]">
+            <PhoneCall size={16} strokeWidth={2.5} />
+          </div>
+          {/* Info */}
+          <div className="flex flex-col items-start min-w-0">
+            <span className="text-[0.75rem] font-extrabold text-[var(--foreground)] leading-tight truncate max-w-[110px]">
+              {property.sellerName || "Verified Agent"}
+            </span>
+            <span className="text-[0.7rem] text-[var(--primary)] font-bold font-mono tracking-wider leading-tight">
+              {getMaskedContact(property.contact)}
+            </span>
+          </div>
+        </button>
+      </div>
     </div>
   );
 }

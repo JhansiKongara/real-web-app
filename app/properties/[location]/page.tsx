@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useParams } from "next/navigation";
+import { useSearchParams, useParams, useRouter } from "next/navigation";
 import { useState, useMemo, useEffect, useRef } from "react";
 
 import properties from "@/app/lib/properties";
@@ -8,13 +8,21 @@ import Filters from "@/app/components/listings/Filters";
 import PropertyCard from "@/app/components/listings/PropertyCard";
 import { Property } from "@/app/types";
 
-import { Filter, X, RotateCcw, ArrowUpDown, CheckCircle } from "lucide-react";
+import {
+  Filter,
+  X,
+  RotateCcw,
+  ArrowUpDown,
+  CheckCircle,
+  ChevronDown,
+} from "lucide-react";
 
 export default function Listings() {
   const searchParams = useSearchParams();
   const params = useParams();
   const locationParam = (params.location as string) || "all";
 
+  const router = useRouter();
   const [sortType, setSortType] = useState("recent");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [selectedType, setSelectedType] = useState("");
@@ -42,6 +50,7 @@ export default function Listings() {
   const [showFilters, setShowFilters] = useState(false);
   const [showSortMobile, setShowSortMobile] = useState(false);
   const sortRef = useRef<HTMLDivElement>(null);
+  const [desktopFiltersOpen, setDesktopFiltersOpen] = useState(true);
 
   useEffect(() => {
     if (showFilters) {
@@ -279,11 +288,14 @@ export default function Listings() {
         ></div>
       )}
 
-      {/* LEFT SIDE FILTERS */}
+      {/* ── MOBILE FILTER OVERLAY ── */}
       <div
-        className={`fixed lg:relative top-12 lg:top-0 ${showFilters ? "right-0" : "right-[-100%]"} lg:right-0 w-full lg:w-[320px] transition-all duration-400 ease-[cubic-bezier(0.4,0,0.2,1)] z-[2000] lg:z-[100] h-[calc(100%-48px)] lg:h-full bg-[var(--card)] lg:bg-[var(--background)]/40 lg:backdrop-blur-sm flex flex-col border-r border-[var(--primary)]/10`}
+        className={`fixed top-12 lg:hidden ${
+          showFilters ? "right-0" : "right-[-100%]"
+        } w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-[2000] h-[calc(100%-48px)] bg-[var(--card)] flex flex-col border-r border-[var(--primary)]/10`}
       >
-        <div className="flex lg:hidden justify-between items-center p-6 bg-[var(--card)] border-b border-[var(--primary)]/20 shadow-sm">
+        {/* Mobile header */}
+        <div className="flex justify-between items-center p-6 bg-[var(--card)] border-b border-[var(--primary)]/20 shadow-sm">
           <h3 className="text-[var(--foreground)] m-0 uppercase font-bold tracking-wider">
             Filters
           </h3>
@@ -294,19 +306,6 @@ export default function Listings() {
             <X size={24} />
           </button>
         </div>
-
-        <div className="hidden lg:flex justify-between items-center p-6 pb-4 bg-[var(--card)] z-[10] border-b-2 border-[var(--primary)]/30">
-          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--primary)] before:rounded-sm">
-            Filters
-          </h3>
-          <button
-            className="bg-[var(--primary)]/10 border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-1.5 rounded-lg transition-all"
-            onClick={clearAllFilters}
-          >
-            <RotateCcw size={14} /> Reset
-          </button>
-        </div>
-
         <div className="flex-1 overflow-hidden">
           <Filters
             showTitle={false}
@@ -354,8 +353,7 @@ export default function Listings() {
             onAreaChange={setAreaRange}
           />
         </div>
-
-        <div className="flex lg:hidden gap-3 p-5 bg-[var(--card)] border-t border-[var(--primary)]/10">
+        <div className="flex gap-3 p-5 bg-[var(--card)] border-t border-[var(--primary)]/10">
           <button
             className="flex-[0.4] p-3.5 bg-[var(--primary)]/5 text-[var(--muted)] rounded-xl border border-[var(--primary)]/10 font-bold"
             onClick={clearAllFilters}
@@ -371,25 +369,157 @@ export default function Listings() {
         </div>
       </div>
 
+      {/* ── DESKTOP FILTER PANEL (animated width) ── */}
+      <div
+        className="hidden lg:flex h-full shrink-0 relative"
+        style={{
+          width: desktopFiltersOpen ? "320px" : "0px",
+          transition: "width 600ms cubic-bezier(0.4,0,0.2,1)",
+        }}
+      >
+        {/* Collapse/Open tab — sticks out beyond the right edge, always visible */}
+        <button
+          onClick={() => setDesktopFiltersOpen((v) => !v)}
+          title={desktopFiltersOpen ? "Collapse filters" : "Open filters"}
+          className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-full flex flex-col items-center justify-center gap-1 bg-[var(--card)] border border-[var(--primary)]/40 border-l-0 rounded-r-lg text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all shadow-[3px_0_12px_rgba(var(--primary-rgb),0.25)] cursor-pointer z-[150] ${
+            desktopFiltersOpen ? "w-[18px] h-14 px-0" : "w-[22px] h-24 px-0"
+          }`}
+        >
+          <ChevronDown
+            size={12}
+            className={desktopFiltersOpen ? "rotate-90" : "-rotate-90"}
+          />
+          {!desktopFiltersOpen && (
+            <span
+              className="text-[0.5rem] font-black uppercase tracking-widest leading-none"
+              style={{ writingMode: "vertical-rl" }}
+            >
+              Filter
+            </span>
+          )}
+        </button>
+
+        {/* Inner content — clipped as panel shrinks */}
+        <div className="flex flex-col h-full w-[320px] overflow-hidden bg-[var(--background)]/40 backdrop-blur-sm border-r border-[var(--primary)]/10">
+          {/* Desktop panel header */}
+          <div className="flex justify-between items-center p-6 pb-4 bg-[var(--card)] z-[10] border-b-2 border-[var(--primary)]/30 shrink-0">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => router.back()}
+                title="Go back"
+                className="p-0 bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] transition-colors cursor-pointer shrink-0"
+              >
+                <ChevronDown size={20} className="rotate-90" />
+              </button>
+              <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--primary)] before:rounded-sm">
+                Filters
+              </h3>
+            </div>
+            <button
+              className="bg-[var(--primary)]/10 border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] hover:bg-[var(--primary)]/20 px-3 py-1.5 rounded-lg transition-all"
+              onClick={clearAllFilters}
+            >
+              <RotateCcw size={14} /> Reset
+            </button>
+          </div>
+          {/* Desktop filters */}
+          <div className="flex-1 overflow-hidden">
+            <Filters
+              showTitle={false}
+              sortType={sortType}
+              selectedAmenities={selectedAmenities}
+              selectedType={selectedType}
+              selectedApproval={selectedApproval}
+              selectedFacing={selectedFacing}
+              selectedStatus={selectedStatus}
+              selectedRoadWidth={selectedRoadWidth}
+              selectedPossession={selectedPossession}
+              selectedOwnership={selectedOwnership}
+              selectedRoadType={selectedRoadType}
+              selectedSellerType={selectedSellerType}
+              isGatedOnly={isGatedOnly}
+              isCornerPlot={isCornerPlot}
+              noRoadHit={noRoadHit}
+              onlyRegularShape={onlyRegularShape}
+              noTJunction={noTJunction}
+              noCornerPlot={noCornerPlot}
+              onlyVastu={onlyVastu}
+              areaUnit={areaUnit}
+              priceRange={priceRange}
+              areaRange={areaRange}
+              onSortChange={setSortType}
+              onAmenitiesChange={setSelectedAmenities}
+              onTypeChange={setSelectedType}
+              onApprovalChange={setSelectedApproval}
+              onFacingChange={setSelectedFacing}
+              onStatusChange={setSelectedStatus}
+              onRoadWidthChange={setSelectedRoadWidth}
+              onPossessionChange={setSelectedPossession}
+              onOwnershipChange={setSelectedOwnership}
+              onRoadTypeChange={setSelectedRoadType}
+              onSellerTypeChange={setSelectedSellerType}
+              onGatedToggle={setIsGatedOnly}
+              onCornerPlotToggle={setIsCornerPlot}
+              onNoRoadHitToggle={setNoRoadHit}
+              onOnlyRegularShapeToggle={setOnlyRegularShape}
+              onNoTJunctionToggle={setNoTJunction}
+              onNoCornerPlotToggle={setNoCornerPlot}
+              onOnlyVastuToggle={setOnlyVastu}
+              onAreaUnitChange={setAreaUnit}
+              onPriceChange={setPriceRange}
+              onAreaChange={setAreaRange}
+            />
+          </div>
+        </div>
+      </div>
+
       {/* RIGHT SIDE CONTENT */}
-      <div className="flex-1 flex flex-col gap-2 md:gap-4 pt-1 pb-4 px-3 md:px-8 md:pb-8 md:pt-4 lg:px-5 lg:pb-2.5 lg:pt-0 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable">
+      <div
+        className={`flex-1 flex flex-col gap-2 md:gap-4 pt-1 pb-4 px-3 md:px-8 md:pb-8 md:pt-4 lg:pb-2.5 lg:pt-0 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable transition-all duration-[600ms] ${desktopFiltersOpen ? "lg:px-5" : "lg:pl-8 lg:pr-5"}`}
+      >
         <div className="lg:bg-[var(--card)] lg:py-2 lg:px-8 rounded-2xl lg:rounded-none lg:border-b-2 lg:border-[var(--primary)]/30 lg:shadow-sm p-0 border-none shadow-none lg:sticky lg:-top-[1px] lg:z-10 lg:-mx-5 bg-transparent">
           {/* DESKTOP VIEW */}
           <div className="hidden lg:flex justify-between items-center gap-4">
-            <div className="flex flex-col">
-              <h2 className="text-[1.4rem] font-extrabold text-[var(--foreground)]">
-                {locationParam === "all" || locationParam === "all-plots"
-                  ? "All Available Plots"
-                  : `Plots in ${locationParam.charAt(0).toUpperCase() + locationParam.slice(1)}`}
-              </h2>
-              <span className="text-[var(--muted)] text-[0.85rem]">
-                {filteredData.length} Properties Found
-              </span>
+            <div className="flex items-center gap-3">
+              {/* Back button — only visible when filter panel is collapsed */}
+              {!desktopFiltersOpen && (
+                <button
+                  onClick={() => router.back()}
+                  title="Go back"
+                  className="p-0 bg-transparent border-none text-[var(--muted)] hover:text-[var(--primary)] transition-colors cursor-pointer shrink-0"
+                >
+                  <ChevronDown size={20} className="rotate-90" />
+                </button>
+              )}
+              <div className="flex flex-col">
+                <h2 className="text-[1.4rem] font-extrabold text-[var(--foreground)]">
+                  {locationParam === "all" || locationParam === "all-plots"
+                    ? "All Available Plots"
+                    : `Plots in ${locationParam.charAt(0).toUpperCase() + locationParam.slice(1)}`}
+                </h2>
+                <span className="text-[var(--muted)] text-[0.85rem]">
+                  {filteredData.length} Properties Found
+                </span>
+              </div>
             </div>
           </div>
 
           {/* MOBILE VIEW ACTIONS */}
           <div className="lg:hidden flex items-center w-full h-[52px] bg-gradient-to-r from-[var(--card)] via-[var(--background)]/95 to-[var(--card)] backdrop-blur-xl fixed top-12 left-0 z-[1000] px-2.5 border-b-2 border-[var(--primary)]/50 shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+            {/* Back */}
+            <button
+              className="flex-1 h-full bg-transparent border-none text-[var(--muted)] text-[0.7rem] flex flex-col items-center justify-center gap-0.5 font-bold uppercase relative active:bg-[var(--primary)]/10"
+              onClick={() => router.back()}
+            >
+              <ChevronDown
+                size={14}
+                className="rotate-90 text-[var(--primary)]"
+              />{" "}
+              Back
+            </button>
+
+            <div className="w-[1px] h-4 bg-[var(--border)]"></div>
+
             <button
               className="flex-1 h-full bg-transparent border-none text-[var(--muted)] text-[0.7rem] flex flex-col items-center justify-center gap-0.5 font-bold uppercase relative active:bg-[var(--primary)]/10"
               onClick={clearAllFilters}
