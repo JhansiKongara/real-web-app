@@ -1,126 +1,236 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
 
-/* globals.css */
-
-/* Neon Theme Variables - Global Access */
-:root {
-  --neon-bg: #020617;
-  /* Slate 950 */
-  --neon-bg-light: #0f172a;
-  /* Slate 900 */
-
-  --neon-cyan: #06b6d4;
-  --neon-cyan-glow: #67e8f9;
-
-  --neon-purple: #a855f7;
-  --neon-purple-glow: #d8b4fe;
-
-  --neon-pink: #ec4899;
-  --neon-pink-glow: #f9a8d4;
-
-  --neon-orange: #f97316;
-
-  --neon-gradient: linear-gradient(to right, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
-  --neon-gradient-text: linear-gradient(to right, #ffffff, #cffafe);
-
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-bg-dark: rgba(2, 6, 23, 0.8);
-
-  --glass-border: rgba(34, 211, 238, 0.3);
-  --glass-border-strong: #06b6d4;
-
-  --text-primary: #cffafe;
-  --text-secondary: #94a3b8;
-
-  --font-inter: "Inter", sans-serif;
+@theme {
   --font-outfit: "Outfit", sans-serif;
+
+  /* Theme agnostic variables */
+  --neon-cyan: #06b6d4;
+  --neon-purple: #a855f7;
+  --neon-pink: #ec4899;
+  
+  /* Animations */
+  @keyframes scanline {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { transform: translateY(1000%); opacity: 0; }
+  }
+
+  @keyframes reveal3d {
+    0% { transform: perspective(1000px) rotateX(-90deg); opacity: 0; }
+    100% { transform: perspective(1000px) rotateX(0deg); opacity: 1; }
+  }
+
+  @keyframes shimmer-sweep {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
 }
 
+/* 
+  ------------------------------------------------------------------
+  THEME SYSTEM (ULTRA CONTRAST MODE)
+  ------------------------------------------------------------------
+*/
+
+/* 1. MIDNIGHT (Obsidian vs Slate Blue) */
+:root, [data-theme='midnight'] {
+  --background: #020617; /* Very Dark Navy Body */
+  --foreground: #f1f5f9;
+  --card: #1e293b;       /* Slate 800 Block (Lighter than body) */
+  --card-hover: #334155; 
+  --primary: #22d3ee;
+  --primary-rgb: 34, 211, 238;
+  --secondary: #8b5cf6;
+  --secondary-rgb: 139, 92, 246;
+  --accent: #f472b6;
+  --accent-rgb: 244, 114, 182;
+  --muted: #94a3b8;
+  --border: rgba(34, 211, 238, 0.3);
+  --glass: #0f172a;
+  --text-gradient: linear-gradient(135deg, #fff 0%, #22d3ee 100%);
+  color-scheme: dark;
+}
+
+/* 2. SOLAR (Black Obsidian vs Rich Bronze) */
+[data-theme='solar'] {
+  --background: #110902; /* Very Dark Brown Body */
+  --foreground: #fef3c7;
+  --card: #2b1a08;       /* Bronze Block (Lighter than body) */
+  --card-hover: #3d250c;
+  --primary: #fbbf24;
+  --primary-rgb: 251, 191, 36;
+  --secondary: #f97316;
+  --secondary-rgb: 249, 115, 22;
+  --accent: #eab308;
+  --accent-rgb: 234, 179, 8;
+  --muted: #a8a29e;
+  --border: rgba(251, 191, 36, 0.4);
+  --glass: #170b03;
+  --text-gradient: linear-gradient(135deg, #fffbeb 0%, #fbbf24 100%);
+  color-scheme: dark;
+}
+
+/* 3. LIGHT (Soft Ash vs Pure White) */
+[data-theme='light'] {
+  --background: #e2e8f0; /* Darker Slate Body */
+  --foreground: #0f172a;
+  --card: #ffffff;       /* Pure White Block */
+  --card-hover: #f1f5f9;
+  --primary: #2563eb;
+  --primary-rgb: 37, 99, 235;
+  --secondary: #7c3aed;
+  --secondary-rgb: 124, 58, 237;
+  --accent: #db2777;
+  --accent-rgb: 219, 39, 119;
+  --muted: #64748b;
+  --border: rgba(0, 0, 0, 0.15);
+  --glass: rgba(255, 255, 255, 0.95);
+  --text-gradient: linear-gradient(135deg, #1e293b 0%, #2563eb 100%);
+  color-scheme: light;
+}
+
+/* 4. CYBERPUNK (Dark Void vs Cyber Violet) */
+[data-theme='cyberpunk'] {
+  --background: #0d0221; /* Darkest Purple Body */
+  --foreground: #fdf2f8;
+  --card: #250952;       /* Radiant Purple Block */
+  --card-hover: #370d7a;
+  --primary: #ff00f7;
+  --primary-rgb: 255, 0, 247;
+  --secondary: #00ff41;
+  --secondary-rgb: 0, 255, 65;
+  --accent: #7000ff;
+  --accent-rgb: 112, 0, 255;
+  --muted: #948fb5;
+  --border: rgba(255, 0, 247, 0.4);
+  --glass: #1a0838;
+  --text-gradient: linear-gradient(135deg, #fff 0%, #ff00f7 100%);
+  color-scheme: dark;
+}
+
+/* 5. EMERALD (Deep Moss vs Vibrant Forest) */
+[data-theme='emerald'] {
+  --background: #020f0a; /* Darkest Green Body */
+  --foreground: #ecfdf5;
+  --card: #052e16;       /* Forest Green Block */
+  --card-hover: #064e3b;
+  --primary: #10b981;
+  --primary-rgb: 16, 185, 129;
+  --secondary: #34d399;
+  --secondary-rgb: 52, 211, 153;
+  --accent: #6ee7b7;
+  --accent-rgb: 110, 231, 183;
+  --muted: #6b7280;
+  --border: rgba(16, 185, 129, 0.4);
+  --glass: #061a14;
+  --text-gradient: linear-gradient(135deg, #ecfdf5 0%, #10b981 100%);
+  color-scheme: dark;
+}
+
+/* 6. AMETHYST (Midnight vs Royal Surface) */
+[data-theme='amethyst'] {
+  --background: #05010a; /* Obsidian Body */
+  --foreground: #f5f3ff;
+  --card: #1f0444;       /* Royal Purple Block */
+  --card-hover: #2e0666;
+  --primary: #d8b4fe;
+  --primary-rgb: 216, 180, 254;
+  --secondary: #a855f7;
+  --secondary-rgb: 168, 85, 247;
+  --accent: #8b5cf6;
+  --accent-rgb: 139, 92, 246;
+  --muted: #7c3aed;
+  --border: rgba(168, 85, 247, 0.4);
+  --glass: #110229;
+  --text-gradient: linear-gradient(135deg, #f5f3ff 0%, #a855f7 100%);
+  color-scheme: dark;
+}
+
+/* 
+  ------------------------------------------------------------------
+  BASE LAYOUT
+  ------------------------------------------------------------------
+*/
 html,
 body {
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: #f0f9ff;
-  --neon-gradient-text: linear-gradient(to right, #0f172a, #334155);
-  /* Dark background matching theme */
-
-  /* Smooth scrolling */
+  background-color: var(--background);
+  color: var(--foreground);
   scroll-behavior: smooth;
-
-  /* Mobile Default: Flexible column layout */
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Main Layout responsive behavior */
 .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 55px; /* Header Space */
+  padding-top: 55px;
   width: 100%;
 }
 
-/* Desktop: Fixed Header/Footer, Scrolling Middle */
 @media (min-width: 1024px) {
   body {
     height: 100vh;
-    overflow: hidden; /* Prevent body scroll */
+    overflow: hidden;
   }
 
   .main-content {
     height: 100vh;
-    overflow-y: auto; /* Scrollable middle */
-    padding-bottom: 80px; /* Space for fixed Footer */
+    overflow-y: auto;
+    padding-bottom: 80px;
     scroll-behavior: smooth;
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
-}
-
-/* Global utility classes */
-.text-gradient {
-  background: var(--neon-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.bg-glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-}
-
-.neon-border {
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
-  border: 1px solid var(--neon-cyan);
-}
-
-/* Global Scrollbar Theme */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
-  border-radius: 4px;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.4);
+  background: var(--primary);
+  opacity: 0.5;
   border-radius: 4px;
-  border: 2px solid rgba(15, 23, 42, 0.3);
+  border: 2px solid var(--background);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a855f7;
+  background: var(--secondary);
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+.neon-border {
+  box-shadow: 0 0 15px var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

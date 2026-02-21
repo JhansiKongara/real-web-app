@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from "@/app/components/layout/footer";
 import Header from "@/app/components/layout/header";
+import { ThemeProvider } from "@/app/context/ThemeProvider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
   title: "Premium Open Plots in Hyderabad | Buy & Sell Real Estate",
@@ -20,14 +21,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans m-0 antialiased`}>
-        {/* Fixed Header */}
-        <Header />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${outfit.variable} font-sans m-0 antialiased`}>
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="midnight"
+          themes={[
+            "midnight",
+            "solar",
+            "light",
+            "cyberpunk",
+            "emerald",
+            "amethyst",
+          ]}
+          enableSystem={false}
+          storageKey="real-estate-theme"
+          disableTransitionOnChange
+        >
+          {/* Fixed Header */}
+          <Header />
 
-        {/* Main content with padding-top to avoid overlap */}
-        <main className="main-content">{children}</main>
-        <Footer />
+          {/* Main content with padding-top to avoid overlap */}
+          <main className="main-content">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -6,7 +6,6 @@ import properties from "@/app/lib/properties";
 import PropertyCard from "./PropertyCard";
 import { Property } from "@/app/types";
 import HorizontalCarousel from "@/app/components/ui/HorizontalCarousel";
-import "@/app/styles/plots.scss";
 
 export default function Plots() {
   const searchParams = useSearchParams();
@@ -55,7 +54,7 @@ export default function Plots() {
   };
 
   return (
-    <div className="plots-page">
+    <div className="w-full py-5 flex flex-col gap-6 bg-transparent">
       <HorizontalCarousel
         title={`Available Plot ${
           searchTerm ? `(Search: "${searchTerm}")` : ""

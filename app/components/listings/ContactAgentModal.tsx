@@ -2,7 +2,6 @@
 
 import { X, Send, User, Mail, Phone, MessageSquare } from "lucide-react";
 import { useState, useEffect } from "react";
-import "@/app/styles/PropertyDetail.scss"; // Reuse glassmorphism styles
 
 interface ContactAgentModalProps {
   isOpen: boolean;
@@ -27,7 +26,6 @@ export default function ContactAgentModal({
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    // Auto-fill from localStorage if available
     const userStr = localStorage.getItem("user");
     if (userStr) {
       try {
@@ -44,18 +42,13 @@ export default function ContactAgentModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate API call
     setTimeout(() => {
       console.log("Inquiry sent:", { name, email, phone, message });
       setIsSubmitting(false);
       setSubmitted(true);
-
-      // Auto close after success
       setTimeout(() => {
         setSubmitted(false);
         onClose();
-        // Reset message but keep contact details
         setMessage(`I am interested in ${propertyTitle}. Please contact me.`);
       }, 2000);
     }, 1500);
@@ -64,73 +57,106 @@ export default function ContactAgentModal({
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2000] animate-[fadeIn_0.3s_ease]"
+      onClick={onClose}
+    >
       <div
-        className="modal-content contact-modal"
+        className="bg-slate-900/90 border border-cyan-400/30 rounded-[20px] p-[30px] relative shadow-[0_20_50px_rgba(0,0,0,0.5)] animate-[slideUp_0.3s_ease] max-w-[500px] w-[90%]"
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: "500px", width: "90%" }}
       >
-        <button className="close-modal-btn" onClick={onClose}>
+        <button
+          className="absolute top-[15px] right-[15px] bg-transparent border-none text-slate-400 cursor-pointer p-[5px] rounded-full flex transition-all hover:bg-white/10 hover:text-white"
+          onClick={onClose}
+        >
           <X size={20} />
         </button>
 
         {!submitted ? (
           <>
-            <div className="modal-header">
-              <h3>Contact {agentName}</h3>
-              <p className="modal-subtitle">Inquire about {propertyTitle}</p>
+            <div className="mb-6 text-center">
+              <h3 className="font-['Outfit'] text-white text-2xl mb-1">
+                Contact {agentName}
+              </h3>
+              <p className="text-slate-400 text-sm">
+                Inquire about {propertyTitle}
+              </p>
             </div>
 
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label>Name</label>
-                <div className="input-with-icon">
-                  <User size={16} />
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-slate-400 text-xs font-semibold uppercase">
+                  Name
+                </label>
+                <div className="relative flex items-center">
+                  <User
+                    size={16}
+                    className="absolute left-3 text-slate-500 pointer-events-none"
+                  />
                   <input
                     type="text"
                     required
                     placeholder="Your Name"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 text-white text-sm outline-none transition-all focus:border-cyan-400 focus:bg-cyan-400/5"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Email</label>
-                <div className="input-with-icon">
-                  <Mail size={16} />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-slate-400 text-xs font-semibold uppercase">
+                  Email
+                </label>
+                <div className="relative flex items-center">
+                  <Mail
+                    size={16}
+                    className="absolute left-3 text-slate-500 pointer-events-none"
+                  />
                   <input
                     type="email"
                     required
                     placeholder="Your Email"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 text-white text-sm outline-none transition-all focus:border-cyan-400 focus:bg-cyan-400/5"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Phone</label>
-                <div className="input-with-icon">
-                  <Phone size={16} />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-slate-400 text-xs font-semibold uppercase">
+                  Phone
+                </label>
+                <div className="relative flex items-center">
+                  <Phone
+                    size={16}
+                    className="absolute left-3 text-slate-500 pointer-events-none"
+                  />
                   <input
                     type="tel"
                     required
                     placeholder="Your Phone Number"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 text-white text-sm outline-none transition-all focus:border-cyan-400 focus:bg-cyan-400/5"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label>Message</label>
-                <div className="input-with-icon textarea">
-                  <MessageSquare size={16} className="mt-1" />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-slate-400 text-xs font-semibold uppercase">
+                  Message
+                </label>
+                <div className="relative flex items-start">
+                  <MessageSquare
+                    size={16}
+                    className="absolute left-3 top-3 text-slate-500 pointer-events-none"
+                  />
                   <textarea
                     required
                     rows={4}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-3 text-white text-sm outline-none transition-all focus:border-cyan-400 focus:bg-cyan-400/5 resize-y min-h-[100px]"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
@@ -139,7 +165,7 @@ export default function ContactAgentModal({
 
               <button
                 type="submit"
-                className="submit-inquiry-btn"
+                className="mt-2.5 bg-gradient-to-r from-[#06b6d4] via-[#a855f7] to-[#ec4899] border-none rounded-xl p-3.5 text-white font-bold font-['Outfit'] cursor-pointer flex items-center justify-center gap-2.5 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_20px_rgba(6,182,212,0.3)] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Sending..." : "Send Inquiry"}{" "}
@@ -148,196 +174,21 @@ export default function ContactAgentModal({
             </form>
           </>
         ) : (
-          <div className="success-message">
-            <div className="success-icon">
+          <div className="text-center py-10 px-5">
+            <div className="w-[60px] h-[60px] bg-cyan-400/10 border border-cyan-400 rounded-full text-cyan-400 flex items-center justify-center mx-auto mb-5">
               <Send size={32} />
             </div>
-            <h3>Inquiry Sent!</h3>
-            <p>The agent will contact you shortly.</p>
+            <h3 className="text-white font-['Outfit'] text-[22px] mb-2.5">
+              Inquiry Sent!
+            </h3>
+            <p className="text-slate-400">
+              The agent will contact you shortly.
+            </p>
           </div>
         )}
       </div>
 
       <style jsx>{`
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(5px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2000;
-          animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content.contact-modal {
-          background: rgba(15, 23, 42, 0.9);
-          border: 1px solid rgba(34, 211, 238, 0.3);
-          border-radius: 20px;
-          padding: 30px;
-          position: relative;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-          animation: slideUp 0.3s ease;
-        }
-
-        .close-modal-btn {
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          background: transparent;
-          border: none;
-          color: #94a3b8;
-          cursor: pointer;
-          padding: 5px;
-          border-radius: 50%;
-          display: flex;
-          transition: 0.2s;
-        }
-
-        .close-modal-btn:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
-        }
-
-        .modal-header {
-          margin-bottom: 24px;
-          text-align: center;
-        }
-
-        .modal-header h3 {
-          font-family: var(--font-outfit);
-          color: #fff;
-          font-size: 24px;
-          margin-bottom: 5px;
-        }
-
-        .modal-subtitle {
-          color: #94a3b8;
-          font-size: 14px;
-        }
-
-        .contact-form {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .form-group label {
-          display: block;
-          color: #94a3b8;
-          font-size: 12px;
-          margin-bottom: 6px;
-          text-transform: uppercase;
-          font-weight: 600;
-        }
-
-        .input-with-icon {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .input-with-icon svg {
-          position: absolute;
-          left: 12px;
-          color: #64748b;
-          pointer-events: none;
-        }
-
-        .input-with-icon.textarea {
-          align-items: flex-start;
-        }
-
-        .input-with-icon.textarea svg {
-          top: 12px;
-        }
-
-        .contact-form input,
-        .contact-form textarea {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 12px;
-          padding: 12px 12px 12px 40px;
-          color: #fff;
-          font-family: var(--font-inter);
-          font-size: 14px;
-          outline: none;
-          transition: 0.3s;
-        }
-
-        .contact-form input:focus,
-        .contact-form textarea:focus {
-          border-color: var(--neon-cyan);
-          background: rgba(6, 182, 212, 0.05);
-        }
-
-        .contact-form textarea {
-          resize: vertical;
-          min-height: 100px;
-        }
-
-        .submit-inquiry-btn {
-          margin-top: 10px;
-          background: var(--neon-gradient);
-          border: none;
-          border-radius: 12px;
-          padding: 14px;
-          color: #fff;
-          font-weight: 700;
-          font-family: var(--font-outfit);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          transition: 0.3s;
-        }
-
-        .submit-inquiry-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 20px rgba(6, 182, 212, 0.3);
-        }
-
-        .submit-inquiry-btn:disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
-          transform: none;
-        }
-
-        .success-message {
-          text-align: center;
-          padding: 40px 20px;
-        }
-
-        .success-icon {
-          width: 60px;
-          height: 60px;
-          background: rgba(6, 182, 212, 0.1);
-          border-radius: 50%;
-          color: var(--neon-cyan);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 20px;
-          border: 1px solid var(--neon-cyan);
-        }
-
-        .success-message h3 {
-          color: #fff;
-          font-family: var(--font-outfit);
-          font-size: 22px;
-          margin-bottom: 10px;
-        }
-
-        .success-message p {
-          color: #94a3b8;
-        }
-
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -346,7 +197,6 @@ export default function ContactAgentModal({
             opacity: 1;
           }
         }
-
         @keyframes slideUp {
           from {
             transform: translateY(20px);

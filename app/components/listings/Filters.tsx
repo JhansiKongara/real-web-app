@@ -1,34 +1,7 @@
 "use client";
 
 import Slider from "@mui/material/Slider";
-import {
-  Car,
-  Droplets,
-  Waves,
-  ShieldCheck,
-  LayoutGrid,
-  IndianRupee,
-  RotateCcw,
-  ChevronDown,
-  ChevronUp,
-  Wind,
-  Zap,
-  Shield,
-  TreePine,
-  Wifi,
-  Coffee,
-  School,
-  ShoppingBag,
-  Dumbbell,
-  Utensils,
-  Stethoscope,
-  Bus,
-  Train,
-  Plane,
-  Landmark,
-  CheckCircle,
-  Tent,
-} from "lucide-react";
+import { RotateCcw, ChevronDown, ChevronUp, CheckCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { AMENITY_OPTIONS, getAmenityIcon } from "@/app/lib/amenities";
 
@@ -155,27 +128,20 @@ export default function Filters({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node))
         setShowSortDropdown(false);
-      }
-      if (unitRef.current && !unitRef.current.contains(event.target as Node)) {
+      if (unitRef.current && !unitRef.current.contains(event.target as Node))
         setShowUnitDropdown(false);
-      }
-      if (prefRef.current && !prefRef.current.contains(event.target as Node)) {
+      if (prefRef.current && !prefRef.current.contains(event.target as Node))
         setShowPrefDropdown(false);
-      }
       if (
         amenitiesRef.current &&
         !amenitiesRef.current.contains(event.target as Node)
-      ) {
+      )
         setShowAmenitiesDropdown(false);
-      }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleReset = () => {
@@ -208,24 +174,27 @@ export default function Filters({
       : `${value}`;
 
   return (
-    <div className="filters">
-      <div className="filters-header">
-        <h3>Filters</h3>
+    <div className="bg-[var(--card)] backdrop-blur-[12px] border-r border-[var(--primary)]/20 w-full p-6 pb-10 h-full overflow-y-auto shadow-[10px_0_30px_-15px_rgba(0,0,0,0.5)] text-[var(--foreground)] scrollbar-hide transition-colors duration-300">
+      <div className="sticky -top-6 z-20 bg-[var(--card)]/95 backdrop-blur-md px-6 py-4 -mx-6 mb-6 flex justify-between items-center border-b-2 border-[var(--primary)]/20 gap-2.5">
+        <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
+          Filters
+        </h3>
         <button
-          className="reset-btn"
+          className="bg-transparent border-none text-[var(--muted)] text-xs font-bold uppercase cursor-pointer flex items-center gap-1.5 hover:text-[var(--primary)] transition-colors"
           onClick={handleReset}
-          title="Reset All Filters"
         >
           <RotateCcw size={14} /> Reset
         </button>
       </div>
 
       {/* SORT SECTION */}
-      <div className={`filter-section ${showSortDropdown ? "active" : ""}`}>
-        <h4>Sort By</h4>
-        <div className="custom-dropdown-container" ref={sortRef}>
+      <div className="mb-[30px] relative z-[50]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Sort By
+        </h4>
+        <div className="relative w-full" ref={sortRef}>
           <button
-            className="dropdown-trigger"
+            className="w-full flex items-center justify-between p-2.5 bg-[var(--background)]/60 border border-[var(--primary)]/20 rounded-xl text-[var(--foreground)] font-semibold cursor-pointer"
             onClick={() => setShowSortDropdown(!showSortDropdown)}
           >
             <span>
@@ -235,11 +204,13 @@ export default function Filters({
                   ? "Price: Low to High"
                   : "Price: High to Low"}
             </span>
-            <ChevronDown size={16} className={showSortDropdown ? "open" : ""} />
+            <ChevronDown
+              size={16}
+              className={`transition-transform duration-200 ${showSortDropdown ? "rotate-180" : ""}`}
+            />
           </button>
-
           {showSortDropdown && (
-            <div className="dropdown-menu">
+            <div className="absolute top-full left-0 w-full mt-1.5 bg-[var(--card)] border border-[var(--secondary)]/40 rounded-xl p-1.5 z-[110] flex flex-col gap-1 shadow-2xl">
               {[
                 { id: "recent", label: "Recently Added" },
                 { id: "low", label: "Price: Low to High" },
@@ -247,7 +218,7 @@ export default function Filters({
               ].map((item) => (
                 <button
                   key={item.id}
-                  className={`dropdown-item ${sortType === item.id ? "active" : ""}`}
+                  className={`w-full p-2.5 bg-transparent border-none text-[var(--muted)] cursor-pointer rounded-lg flex items-center justify-between gap-2.5 transition-all hover:bg-[var(--primary)]/10 ${sortType === item.id ? "bg-[var(--primary)]/10 text-[var(--primary)]" : ""}`}
                   onClick={() => {
                     onSortChange(item.id);
                     setShowSortDropdown(false);
@@ -262,23 +233,25 @@ export default function Filters({
         </div>
       </div>
 
-      {/* PREFERENCES / AVOID LIST */}
-      <div className={`filter-section ${showPrefDropdown ? "active" : ""}`}>
-        <h4>Avoid / Preference</h4>
-        <div className="custom-dropdown-container" ref={prefRef}>
+      {/* PREFERENCES */}
+      <div className="mb-[30px] relative z-[45]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Avoid / Preference
+        </h4>
+        <div className="relative w-full" ref={prefRef}>
           <button
-            className="dropdown-trigger"
+            className="w-full flex items-center justify-between p-2.5 bg-[var(--background)]/60 border border-[var(--primary)]/20 rounded-xl text-[var(--foreground)] font-semibold cursor-pointer"
             onClick={() => setShowPrefDropdown(!showPrefDropdown)}
           >
             <span>
               {[
-                noRoadHit && "No Road Hit",
-                onlyRegularShape && "Regular Shape",
-                noTJunction && "No T-Junction",
-                noCornerPlot && "No Corner Plot",
-                onlyVastu && "Vastu OK",
-                isGatedOnly && "Gated Only",
-                isCornerPlot && "Corner Plot",
+                noRoadHit && "No",
+                onlyRegularShape && "Reg",
+                noTJunction && "No T",
+                noCornerPlot && "No Cor",
+                onlyVastu && "Vastu",
+                isGatedOnly && "Gated",
+                isCornerPlot && "Corner",
               ].filter(Boolean).length || "Select Preferences"}
               {[
                 noRoadHit,
@@ -292,11 +265,13 @@ export default function Filters({
                 ? " Active"
                 : ""}
             </span>
-            <ChevronDown size={16} className={showPrefDropdown ? "open" : ""} />
+            <ChevronDown
+              size={16}
+              className={`transition-transform duration-200 ${showPrefDropdown ? "rotate-180" : ""}`}
+            />
           </button>
-
           {showPrefDropdown && (
-            <div className="dropdown-menu">
+            <div className="absolute top-full left-0 w-full mt-1.5 bg-[var(--card)] border border-[var(--secondary)]/40 rounded-xl p-1.5 z-[110] flex flex-col gap-1 shadow-2xl">
               {[
                 {
                   label: "No Road Hit",
@@ -336,7 +311,7 @@ export default function Filters({
               ].map((item, idx) => (
                 <button
                   key={idx}
-                  className={`dropdown-item ${item.active ? "active" : ""}`}
+                  className={`w-full p-2.5 bg-transparent border-none text-[var(--muted)] cursor-pointer rounded-lg flex items-center justify-between gap-2.5 transition-all hover:bg-[var(--primary)]/10 ${item.active ? "bg-[var(--primary)]/10 text-[var(--primary)]" : ""}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     item.toggle();
@@ -351,14 +326,14 @@ export default function Filters({
         </div>
       </div>
 
-      {/* AMENITIES SECTION - DROPDOWN */}
-      <div
-        className={`filter-section ${showAmenitiesDropdown ? "active" : ""}`}
-      >
-        <h4>Amenities</h4>
-        <div className="custom-dropdown-container" ref={amenitiesRef}>
+      {/* AMENITIES */}
+      <div className="mb-[30px] relative z-[40]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Amenities
+        </h4>
+        <div className="relative w-full" ref={amenitiesRef}>
           <button
-            className="dropdown-trigger"
+            className="w-full flex items-center justify-between p-2.5 bg-[var(--background)]/60 border border-[var(--primary)]/20 rounded-xl text-[var(--foreground)] font-semibold cursor-pointer"
             onClick={() => setShowAmenitiesDropdown(!showAmenitiesDropdown)}
           >
             <span>
@@ -368,12 +343,11 @@ export default function Filters({
             </span>
             <ChevronDown
               size={16}
-              className={showAmenitiesDropdown ? "open" : ""}
+              className={`transition-transform duration-200 ${showAmenitiesDropdown ? "rotate-180" : ""}`}
             />
           </button>
-
           {showAmenitiesDropdown && (
-            <div className="dropdown-menu">
+            <div className="absolute top-full left-0 w-full mt-1.5 bg-[var(--card)] border border-[var(--secondary)]/40 rounded-xl p-1.5 z-[110] flex flex-col gap-1 shadow-2xl max-h-[250px] overflow-y-auto">
               {amenitiesList
                 .filter((a) => a !== "All")
                 .map((amenity) => {
@@ -381,22 +355,17 @@ export default function Filters({
                   return (
                     <button
                       key={amenity}
-                      className={`dropdown-item ${isActive ? "active" : ""}`}
+                      className={`w-full p-2.5 bg-transparent border-none text-[var(--muted)] cursor-pointer rounded-lg flex items-center justify-between gap-2.5 transition-all hover:bg-[var(--primary)]/10 ${isActive ? "bg-[var(--primary)]/10 text-[var(--primary)]" : ""}`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        const newAmenities = isActive
-                          ? selectedAmenities.filter((a) => a !== amenity)
-                          : [...selectedAmenities, amenity];
-                        onAmenitiesChange(newAmenities);
+                        onAmenitiesChange(
+                          isActive
+                            ? selectedAmenities.filter((a) => a !== amenity)
+                            : [...selectedAmenities, amenity],
+                        );
                       }}
                     >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}
-                      >
+                      <div className="flex items-center gap-2">
                         {getAmenityIcon(amenity)}
                         <span>{amenity}</span>
                       </div>
@@ -409,109 +378,79 @@ export default function Filters({
         </div>
       </div>
 
-      <div className="filter-section">
-        <h4>Status</h4>
-        <div className="amenities-buttons">
-          {statuses.map((status) => {
-            const value = status === "All" ? "" : status;
-            const isActive = selectedStatus === value;
-            return (
-              <button
-                key={status}
-                className={isActive ? "active" : ""}
-                onClick={() => onStatusChange(value)}
-              >
-                <span>{status}</span>
-              </button>
-            );
-          })}
+      {/* GRID BUTTONS FOR OTHER FILTERS */}
+      {[
+        {
+          label: "Status",
+          list: statuses,
+          selected: selectedStatus,
+          setter: onStatusChange,
+        },
+        {
+          label: "Possession",
+          list: possessions,
+          selected: selectedPossession,
+          setter: onPossessionChange,
+        },
+        {
+          label: "Property Type",
+          list: propertyTypes,
+          selected: selectedType,
+          setter: onTypeChange,
+        },
+        {
+          label: "Approval",
+          list: approvals,
+          selected: selectedApproval,
+          setter: onApprovalChange,
+        },
+        {
+          label: "Ownership",
+          list: ownerships,
+          selected: selectedOwnership,
+          setter: onOwnershipChange,
+        },
+        {
+          label: "Road Type",
+          list: roadTypes,
+          selected: selectedRoadType,
+          setter: onRoadTypeChange,
+        },
+        {
+          label: "Seller Type",
+          list: sellerTypes,
+          selected: selectedSellerType,
+          setter: onSellerTypeChange,
+        },
+      ].map((section, idx) => (
+        <div key={idx} className="mb-[30px]">
+          <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+            {section.label}
+          </h4>
+          <div className="flex flex-wrap gap-2">
+            {section.list.map((item) => {
+              const value = item === "All" ? "" : item;
+              const isActive = section.selected === value;
+              return (
+                <button
+                  key={item}
+                  className={`px-3 py-2 rounded-xl bg-[var(--background)]/40 text-[var(--muted)] text-[0.75rem] cursor-pointer border border-[var(--border)] transition-all hover:border-[var(--primary)]/50 ${isActive ? "bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] text-white border-none shadow-[0_0_10px_rgba(var(--primary),0.3)]" : ""}`}
+                  onClick={() => section.setter(value)}
+                >
+                  {item}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ))}
 
-      {/* POSSESSION */}
-      <div className="filter-section">
-        <h4>Possession</h4>
-        <div className="amenities-buttons">
-          {possessions.map((p) => {
-            const value = p === "All" ? "" : p;
-            const isActive = selectedPossession === value;
-            return (
-              <button
-                key={p}
-                className={isActive ? "active" : ""}
-                onClick={() => onPossessionChange(value)}
-              >
-                <span>{p}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* PROPERTY TYPE */}
-      <div className="filter-section">
-        <h4>Property Type</h4>
-        <div className="amenities-buttons">
-          {propertyTypes.map((type) => {
-            const value = type === "All" ? "" : type;
-            const isActive = selectedType === value;
-            return (
-              <button
-                key={type}
-                className={isActive ? "active" : ""}
-                onClick={() => onTypeChange(value)}
-              >
-                <span>{type}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* APPROVAL TYPE */}
-      <div className="filter-section">
-        <h4>Approval</h4>
-        <div className="amenities-buttons">
-          {approvals.map((approval) => {
-            const value = approval === "All" ? "" : approval;
-            const isActive = selectedApproval === value;
-            return (
-              <button
-                key={approval}
-                className={isActive ? "active" : ""}
-                onClick={() => onApprovalChange(value)}
-              >
-                <span>{approval}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* OWNERSHIP TYPE */}
-      <div className="filter-section">
-        <h4>Ownership</h4>
-        <div className="amenities-buttons">
-          {ownerships.map((o) => {
-            const value = o === "All" ? "" : o;
-            const isActive = selectedOwnership === value;
-            return (
-              <button
-                key={o}
-                className={isActive ? "active" : ""}
-                onClick={() => onOwnershipChange(value)}
-              >
-                <span>{o}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* FACING */}
-      <div className="filter-section">
-        <h4>Facing</h4>
-        <div className="amenities-buttons">
+      {/* FACING (with show more) */}
+      <div className="mb-[30px]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Facing
+        </h4>
+        <div className="flex flex-wrap gap-2">
           {(showAllFacing ? facingsList : facingsList.slice(0, 5)).map(
             (facing) => {
               const value = facing === "All" ? "" : facing;
@@ -519,10 +458,10 @@ export default function Filters({
               return (
                 <button
                   key={facing}
-                  className={isActive ? "active" : ""}
+                  className={`px-3 py-2 rounded-xl bg-[var(--background)]/40 text-[var(--muted)] text-[0.75rem] cursor-pointer border border-[var(--border)] transition-all hover:border-[var(--primary)]/50 ${isActive ? "bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] text-white border-none shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)]" : ""}`}
                   onClick={() => onFacingChange(value)}
                 >
-                  <span>{facing}</span>
+                  {facing}
                 </button>
               );
             },
@@ -530,19 +469,8 @@ export default function Filters({
         </div>
         {facingsList.length > 5 && (
           <button
-            className="show-more-btn"
+            className="mt-2 bg-transparent border-none text-[var(--primary)] cursor-pointer flex items-center gap-1 text-[13px] font-semibold hover:text-[var(--foreground)] transition-colors"
             onClick={() => setShowAllFacing(!showAllFacing)}
-            style={{
-              marginTop: "8px",
-              background: "none",
-              border: "none",
-              color: "#22d3ee",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              fontSize: "13px",
-            }}
           >
             {showAllFacing ? (
               <>
@@ -558,71 +486,33 @@ export default function Filters({
       </div>
 
       {/* ROAD WIDTH */}
-      <div className="filter-section">
-        <h4>Road Width (ft)</h4>
-        <div className="amenities-buttons">
+      <div className="mb-[30px]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Road Width (ft)
+        </h4>
+        <div className="flex flex-wrap gap-2">
           {roadWidths.map((rw) => {
             const value = rw === "All" ? "" : rw;
             const isActive = selectedRoadWidth === value;
             return (
               <button
                 key={rw}
-                className={isActive ? "active" : ""}
+                className={`px-3 py-2 rounded-xl bg-[var(--background)]/40 text-[var(--muted)] text-[0.75rem] cursor-pointer border border-[var(--border)] transition-all hover:border-[var(--primary)]/50 ${isActive ? "bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] text-white border-none shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)]" : ""}`}
                 onClick={() => onRoadWidthChange(value)}
               >
-                <span>
-                  {rw} {rw !== "All" && "ft"}
-                </span>
+                {rw} {rw !== "All" && "ft"}
               </button>
             );
           })}
         </div>
       </div>
 
-      {/* ROAD TYPE */}
-      <div className="filter-section">
-        <h4>Road Type</h4>
-        <div className="amenities-buttons">
-          {roadTypes.map((rt) => {
-            const value = rt === "All" ? "" : rt;
-            const isActive = selectedRoadType === value;
-            return (
-              <button
-                key={rt}
-                className={isActive ? "active" : ""}
-                onClick={() => onRoadTypeChange(value)}
-              >
-                <span>{rt}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* SELLER TYPE */}
-      <div className="filter-section">
-        <h4>Seller Type</h4>
-        <div className="amenities-buttons">
-          {sellerTypes.map((st) => {
-            const value = st === "All" ? "" : st;
-            const isActive = selectedSellerType === value;
-            return (
-              <button
-                key={st}
-                className={isActive ? "active" : ""}
-                onClick={() => onSellerTypeChange(value)}
-              >
-                <span>{st}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* PRICE RANGE SLIDER */}
-      <div className="filter-section">
-        <h4>Price Range</h4>
-        <div className="slider-container">
+      {/* PRICE RANGE */}
+      <div className="mb-[30px]">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          Price Range
+        </h4>
+        <div className="px-1.5">
           <Slider
             value={priceRange}
             onChange={(_, newValue) => onPriceChange(newValue as number[])}
@@ -631,7 +521,7 @@ export default function Filters({
             max={50000000}
             step={500000}
             sx={{
-              color: "#22d3ee",
+              color: "var(--primary)",
               height: 6,
               "& .MuiSlider-thumb": {
                 width: 18,
@@ -639,39 +529,30 @@ export default function Filters({
                 backgroundColor: "#fff",
                 border: "2px solid currentColor",
               },
-              "& .MuiSlider-rail": { color: "#94a3b8", opacity: 0.3 },
+              "& .MuiSlider-rail": { color: "var(--muted)", opacity: 0.3 },
             }}
           />
-          <div className="price-indicators">
-            <span>
+          <div className="flex justify-between items-center mt-2.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
+            <span className="flex items-center gap-1 text-[var(--primary)]">
               <IndianRupee size={12} /> {formatPrice(priceRange[0])}
             </span>
-            <span className="separator">-</span>
-            <span>
+            <span className="opacity-30">-</span>
+            <span className="flex items-center gap-1 text-[var(--primary)]">
               <IndianRupee size={12} /> {formatPrice(priceRange[1])}
             </span>
           </div>
         </div>
       </div>
 
-      {/* AREA RANGE SLIDER */}
-      <div
-        className={`filter-section ${showUnitDropdown ? "active" : ""}`}
-        style={{ overflow: "visible" }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "8px",
-            position: "relative",
-          }}
-        >
-          <h4 style={{ margin: 0 }}>Area</h4>
-          <div className="custom-dropdown-container mini" ref={unitRef}>
+      {/* AREA RANGE */}
+      <div className="mb-[30px] relative">
+        <div className="flex justify-between items-center mb-4">
+          <h4 className="text-[0.85rem] text-[var(--secondary)] font-bold uppercase m-0">
+            Area
+          </h4>
+          <div className="relative" ref={unitRef}>
             <button
-              className="dropdown-trigger"
+              className="flex items-center gap-1.5 bg-[var(--background)]/80 border border-[var(--secondary)]/30 text-[var(--foreground)] px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-[var(--secondary)]/10 hover:border-[var(--secondary)] hover:text-white"
               onClick={() => setShowUnitDropdown(!showUnitDropdown)}
             >
               <span>
@@ -687,16 +568,15 @@ export default function Filters({
               </span>
               <ChevronDown
                 size={14}
-                className={showUnitDropdown ? "open" : ""}
+                className={`transition-transform duration-200 ${showUnitDropdown ? "rotate-180" : ""}`}
               />
             </button>
-
             {showUnitDropdown && (
-              <div className="dropdown-menu">
+              <div className="absolute bottom-full right-0 mb-1.5 bg-[var(--card)] border border-[var(--secondary)]/30 rounded-lg p-1 min-w-[100px] shadow-2xl z-[110]">
                 {["sqyd", "sqft", "gunta", "acre", "cent"].map((unit) => (
                   <button
                     key={unit}
-                    className={`dropdown-item ${areaUnit === unit ? "active" : ""}`}
+                    className={`w-full text-center p-2 text-[0.8rem] rounded-md transition-all hover:bg-[var(--primary)]/10 ${areaUnit === unit ? "text-[var(--primary)] bg-[var(--primary)]/10" : "text-[var(--muted)] hover:text-[var(--foreground)]"}`}
                     onClick={() => {
                       onAreaUnitChange(unit);
                       setShowUnitDropdown(false);
@@ -717,7 +597,7 @@ export default function Filters({
             )}
           </div>
         </div>
-        <div className="slider-container">
+        <div className="px-1.5">
           <Slider
             value={areaRange}
             onChange={(_, newValue) => onAreaChange(newValue as number[])}
@@ -732,7 +612,7 @@ export default function Filters({
             }
             step={areaUnit === "acre" || areaUnit === "cent" ? 0.1 : 1}
             sx={{
-              color: "#a855f7",
+              color: "var(--secondary)",
               height: 6,
               "& .MuiSlider-thumb": {
                 width: 18,
@@ -740,11 +620,11 @@ export default function Filters({
                 backgroundColor: "#fff",
                 border: "2px solid currentColor",
               },
-              "& .MuiSlider-rail": { color: "#94a3b8", opacity: 0.3 },
+              "& .MuiSlider-rail": { color: "var(--muted)", opacity: 0.3 },
             }}
           />
-          <div className="price-indicators">
-            <span style={{ color: "#a855f7" }}>
+          <div className="flex justify-between items-center mt-2.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
+            <span className="text-[var(--secondary)]">
               {areaRange[0]}{" "}
               {
                 {
@@ -756,8 +636,8 @@ export default function Filters({
                 }[areaUnit]
               }
             </span>
-            <span className="separator">-</span>
-            <span style={{ color: "#a855f7" }}>
+            <span className="opacity-30">-</span>
+            <span className="text-[var(--secondary)]">
               {areaRange[1]}{" "}
               {
                 {
@@ -773,5 +653,26 @@ export default function Filters({
         </div>
       </div>
     </div>
+  );
+}
+
+function IndianRupee({ size }: { size: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 3h12" />
+      <path d="M6 8h12" />
+      <path d="m6 13 8.5 8" />
+      <path d="M6 13h3" />
+      <path d="M9 13c6.667 0 6.667-10 0-10" />
+    </svg>
   );
 }
