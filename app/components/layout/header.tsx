@@ -114,7 +114,7 @@ export default function Header() {
             Menu
           </h3>
           <button
-            className="bg-transparent border-none text-[var(--secondary)] text-3xl cursor-pointer transition-transform duration-300 hover:text-[var(--primary)] hover:rotate-90"
+            className="bg-transparent border-none text-[var(--primary)] text-3xl cursor-pointer transition-transform duration-300 hover:text-[var(--primary)] hover:rotate-90"
             onClick={() => setOpen(false)}
           >
             ×

@@ -17,7 +17,7 @@ export default function Carousel() {
       <div className="relative w-full max-w-[1400px] mx-auto px-5 lg:mt-[15px] md:mt-[5px] sm:px-[5px]">
         <SearchBar />
 
-        <div className="mt-[25px] rounded-[20px] overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.2)] border-[3px] border-transparent bg-clip-padding relative before:absolute before:inset-0 before:-m-[3px] before:rounded-[20px] before:bg-gradient-to-r before:from-[#06b6d4] before:via-[#a855f7] before:to-[#ec4899] before:-z-10">
+        <div className="mt-[25px] mb-[25px] md:mb-0 rounded-[20px] overflow-hidden bg-[var(--card)] shadow-[0_0_30px_rgba(var(--primary-rgb),0.25)] border-2 border-[var(--primary)]/50 transition-all duration-500 hover:border-[var(--primary)] hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.5)] group relative z-10">
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={20}

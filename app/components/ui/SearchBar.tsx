@@ -105,7 +105,7 @@ export default function SearchBar() {
             }}
           />
           {activePopover === "suggestions" && suggestions.length > 0 && (
-            <div className="absolute top-[110%] left-0 w-full bg-[var(--background)] border-2 border-[var(--secondary)]/50 rounded-xl p-3 shadow-[0_10px_15px_-5px_rgba(0,0,0,0.3)] z-[50] animate-[fadeIn_0.15s_ease-out] overflow-y-auto max-h-[300px] scrollbar-hide">
+            <div className="absolute top-[110%] left-0 w-full bg-[var(--background)] border-2 border-[var(--primary)]/50 rounded-xl p-3 shadow-[0_10px_15px_-5px_rgba(var(--primary-rgb),0.3)] z-[50] animate-[fadeIn_0.15s_ease-out] overflow-y-auto max-h-[300px] scrollbar-hide">
               {suggestions.map((project, index) => (
                 <button
                   key={index}
@@ -125,18 +125,18 @@ export default function SearchBar() {
         {/* Location Dropdown */}
         <div className="popover-container flex-1 w-full min-w-[180px] relative">
           <div
-            className="w-full min-h-[50px] md:min-h-[50px] min-h-[40px] px-4 bg-[var(--background)] border-2 border-[var(--secondary)]/50 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:border-[var(--secondary)]"
+            className="w-full min-h-[50px] md:min-h-[50px] min-h-[40px] px-4 bg-[var(--background)] border-2 border-[var(--primary)]/50 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:border-[var(--primary)]"
             onClick={(e) => {
               e.stopPropagation();
               togglePopover("loc");
             }}
           >
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] flex items-center justify-center shadow-[0_2px_4px_-1px_rgba(var(--primary-rgb),0.5)]">
+              <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center shadow-[0_2px_4px_-1px_rgba(var(--primary-rgb),0.5)]">
                 <MapPin size={18} strokeWidth={2.5} className="text-white" />
               </div>
               <div>
-                <div className="text-[var(--secondary)] text-[0.5rem] font-bold uppercase tracking-wider">
+                <div className="text-[var(--primary)] text-[0.5rem] font-bold uppercase tracking-wider">
                   CITY
                 </div>
                 <div className="text-[var(--foreground)] font-bold text-[0.825rem] whitespace-nowrap overflow-hidden text-ellipsis">
@@ -145,20 +145,20 @@ export default function SearchBar() {
               </div>
             </div>
             <ChevronDown
-              className={`text-[var(--secondary)] transition-transform duration-200 ${activePopover === "loc" ? "rotate-180" : ""}`}
+              className={`text-[var(--primary)] transition-transform duration-200 ${activePopover === "loc" ? "rotate-180" : ""}`}
               size={18}
               strokeWidth={3}
             />
           </div>
 
           {activePopover === "loc" && (
-            <div className="absolute top-[110%] left-0 w-full bg-[var(--background)] border-2 border-[var(--secondary)]/50 rounded-xl p-3 shadow-[0_10px_15px_-5px_rgba(var(--secondary-rgb),0.3)] z-[50] animate-[fadeIn_0.15s_ease-out] overflow-y-auto max-h-[300px] scrollbar-hide">
+            <div className="absolute top-[110%] left-0 w-full bg-[var(--background)] border-2 border-[var(--primary)]/50 rounded-xl p-3 shadow-[0_10px_15px_-5px_rgba(var(--primary-rgb),0.3)] z-[50] animate-[fadeIn_0.15s_ease-out] overflow-y-auto max-h-[300px] scrollbar-hide">
               {["Hyderabad", "Bangalore", "Chennai", "Mumbai", "Pune"].map(
                 (city) => (
                   <button
                     key={city}
                     onClick={() => handleLocationSelect(city)}
-                    className="w-full text-left px-4 py-2 text-[var(--foreground)] bg-transparent border border-transparent rounded-lg font-semibold uppercase tracking-wider text-[0.8rem] cursor-pointer transition-all hover:bg-[var(--secondary)]/20 hover:border-[var(--secondary)]/40"
+                    className="w-full text-left px-4 py-2 text-[var(--foreground)] bg-transparent border border-transparent rounded-lg font-semibold uppercase tracking-wider text-[0.8rem] cursor-pointer transition-all hover:bg-[var(--primary)]/20 hover:border-[var(--primary)]/40"
                   >
                     {city}
                   </button>
@@ -171,14 +171,14 @@ export default function SearchBar() {
         {/* Price Dropdown */}
         <div className="popover-container flex-1 w-full min-w-[180px] relative">
           <div
-            className="w-full min-h-[50px] md:min-h-[50px] min-h-[40px] px-4 bg-[var(--background)] border-2 border-[var(--accent)]/50 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:border-[var(--accent)]"
+            className="w-full min-h-[50px] md:min-h-[50px] min-h-[40px] px-4 bg-[var(--background)] border-2 border-[var(--primary)]/50 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:border-[var(--primary)]"
             onClick={(e) => {
               e.stopPropagation();
               togglePopover("price");
             }}
           >
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--secondary)] to-[var(--accent)] flex items-center justify-center shadow-[0_2px_4px_-1px_rgba(var(--secondary-rgb),0.5)]">
+              <div className="w-8 h-8 rounded-lg bg-[var(--primary)] flex items-center justify-center shadow-[0_2px_4px_-1px_rgba(var(--primary-rgb),0.5)]">
                 <IndianRupee
                   size={20}
                   strokeWidth={2.5}
@@ -186,7 +186,7 @@ export default function SearchBar() {
                 />
               </div>
               <div>
-                <div className="text-[var(--accent)] text-[0.5rem] font-bold uppercase tracking-wider">
+                <div className="text-[var(--primary)] text-[0.5rem] font-bold uppercase tracking-wider">
                   BUDGET
                 </div>
                 <div className="text-[var(--foreground)] font-bold text-[0.825rem] whitespace-nowrap overflow-hidden text-ellipsis">
@@ -195,14 +195,14 @@ export default function SearchBar() {
               </div>
             </div>
             <ChevronDown
-              className={`text-[var(--accent)] transition-transform duration-200 ${activePopover === "price" ? "rotate-180" : ""}`}
+              className={`text-[var(--primary)] transition-transform duration-200 ${activePopover === "price" ? "rotate-180" : ""}`}
               size={18}
               strokeWidth={3}
             />
           </div>
 
           {activePopover === "price" && (
-            <div className="absolute top-[110%] left-0 w-full min-w-[300px] bg-[var(--background)] border-2 border-[var(--accent)]/50 rounded-xl p-6 shadow-[0_10px_15px_-5px_rgba(var(--accent-rgb),0.3)] z-[50] animate-[fadeIn_0.15s_ease-out]">
+            <div className="absolute top-[110%] left-0 w-full min-w-[300px] bg-[var(--background)] border-2 border-[var(--primary)]/50 rounded-xl p-6 shadow-[0_10px_15px_-5px_rgba(var(--primary-rgb),0.3)] z-[50] animate-[fadeIn_0.15s_ease-out]">
               <div className="px-2.5">
                 <Slider
                   value={priceRange}
@@ -212,7 +212,7 @@ export default function SearchBar() {
                   max={50000000}
                   step={500000}
                   sx={{
-                    color: "var(--accent)",
+                    color: "var(--primary)",
                     height: 6,
                     "& .MuiSlider-thumb": {
                       width: 24,
@@ -220,18 +220,18 @@ export default function SearchBar() {
                       backgroundColor: "#fff",
                       border: "2px solid currentColor",
                       "&:hover, &.Mui-focusVisible, &.Mui-active": {
-                        boxShadow: "0 0 0 8px rgba(var(--accent-rgb), 0.16)",
+                        boxShadow: "0 0 0 8px rgba(var(--primary-rgb), 0.16)",
                       },
                     },
                     "& .MuiSlider-rail": {
-                      color: "var(--accent)",
+                      color: "var(--primary)",
                       opacity: 0.3,
                     },
                     "& .MuiSlider-valueLabel": {
-                      backgroundColor: "var(--secondary)",
+                      backgroundColor: "var(--primary)",
                       color: "#fff",
                       borderRadius: "8px",
-                      boxShadow: "0 0 10px rgba(var(--secondary-rgb), 0.5)",
+                      boxShadow: "0 0 10px rgba(var(--primary-rgb), 0.5)",
                       fontSize: "0.75rem",
                       fontWeight: 700,
                     },

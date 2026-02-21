@@ -29,7 +29,47 @@ export default function PropertyDetail() {
   const [showGallery, setShowGallery] = useState(false);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
 
-  let property = properties.find((p) => p.slug === slug);
+  let property: Property | undefined;
+
+  if (typeof window !== "undefined") {
+    // Attempt to perfectly match via localStorage to avoid needing ID in the URL
+    const stored = localStorage.getItem("selectedProperty");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as Property;
+        // Verify the stored property actually matches the URL we are on
+        const parsedSlug =
+          parsed.slug ||
+          parsed.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+        const expectedUniqueSlug = `${parsedSlug}-${parsed.id}`;
+
+        if (expectedUniqueSlug === slug || parsedSlug === slug) {
+          property = parsed;
+        }
+      } catch (e) {
+        console.error("Failed to parse stored property");
+      }
+    }
+  }
+
+  // Fallbacks: If direct page reload or shared link, look it up in the DB
+  if (!property) {
+    property = properties.find((p) => p.slug === slug);
+  }
+  if (!property) {
+    // Extract ID from the end of the slug (e.g., luxury-villa-105)
+    const slugParts = slug?.split("-");
+    const extractedId = slugParts ? slugParts[slugParts.length - 1] : null;
+    property = properties.find((p) => p.id.toString() === extractedId);
+  }
+  if (!property) {
+    // Extract ID from the beginning of the slug (legacy support)
+    const extractedId = slug?.split("-")[0];
+    property = properties.find((p) => p.id.toString() === extractedId);
+  }
   if (!property) {
     property = properties.find((p) => p.id.toString() === slug);
   }
@@ -41,7 +81,7 @@ export default function PropertyDetail() {
           <h2 className="text-2xl font-bold mb-4">Property Not Found</h2>
           <button
             onClick={() => router.back()}
-            className="px-6 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--secondary)] transition"
+            className="px-6 py-2 bg-[var(--primary)] text-white rounded-lg hover:bg-[var(--primary)]/80 shadow-[0_4px_15px_rgba(var(--primary-rgb),0.3)] transition-all"
           >
             Go Back
           </button>
@@ -326,14 +366,14 @@ export default function PropertyDetail() {
             </h2>
 
             <div className="flex items-center gap-5 mb-8 p-5 bg-[var(--primary)]/5 rounded-xl border border-[var(--primary)]/10">
-              <div className="w-16 h-16 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-full flex items-center justify-center text-2xl font-extrabold text-white shadow-[0_0_20px_rgba(var(--primary-rgb),0.3)] border-2 border-[var(--border)] shrink-0">
+              <div className="w-16 h-16 bg-[var(--primary)] rounded-full flex items-center justify-center text-2xl font-extrabold text-[var(--background)] shadow-[0_0_20px_rgba(var(--primary-rgb),0.5)] border-2 border-[var(--primary)] shrink-0">
                 {property.sellerName?.charAt(0) || "A"}
               </div>
               <div>
                 <div className="text-xl font-bold text-[var(--foreground)] leading-tight">
                   {property.sellerName || "Verified Agent"}
                 </div>
-                <div className="text-[0.85rem] text-[var(--secondary)] font-semibold uppercase tracking-wide">
+                <div className="text-[0.85rem] text-[var(--primary)] font-semibold uppercase tracking-wide">
                   {property.sellerType || "Consultant"}
                 </div>
                 <div className="text-[1.1rem] text-[var(--primary)] font-bold font-mono tracking-wider mt-1">
@@ -343,7 +383,7 @@ export default function PropertyDetail() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button className="w-full py-4 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-extrabold text-base uppercase tracking-wider rounded-lg transition-all hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(var(--primary-rgb),0.4)] cursor-pointer">
+              <button className="w-full py-4 bg-[var(--primary)] text-[var(--background)] font-extrabold text-base uppercase tracking-wider rounded-lg transition-all hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(var(--primary-rgb),0.6)] cursor-pointer">
                 Contact Agent
               </button>
               <button className="w-full py-3.5 bg-transparent border border-[var(--primary)]/50 text-[var(--primary)] font-bold text-base rounded-lg transition-all hover:bg-[var(--primary)]/10 hover:border-[var(--primary)] cursor-pointer">

@@ -101,6 +101,14 @@ export default function GalleryModal({
   }, [isOpen, images.length]);
 
   useEffect(() => {
+    if (!isOpen || images.length <= 1) return;
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [isOpen, images.length, activeIndex]);
+
+  useEffect(() => {
     if (images.length > 1) {
       const activeThumb = document.querySelector(".thumb-btn-active");
       if (activeThumb) {
@@ -155,7 +163,7 @@ export default function GalleryModal({
       </div>
 
       <div
-        className="relative w-[95%] max-w-[1400px] h-screen pt-[60px] flex flex-col items-center justify-center gap-5"
+        className="relative w-[95%] max-w-[1400px] h-screen pt-[60px] pb-10 sm:pb-0 flex flex-col items-center justify-center gap-2 sm:gap-5"
         onClick={(e) => e.stopPropagation()}
         ref={containerRef}
       >
@@ -168,31 +176,33 @@ export default function GalleryModal({
             <ChevronLeft size={32} />
           </button>
 
-          <div
-            className="relative w-full max-w-[1100px] aspect-video max-h-[70vh] flex items-center justify-center bg-black/60 rounded-lg overflow-hidden shadow-[0_0_20px_rgba(0,243,255,0.2),0_0_40px_rgba(0,243,255,0.1),inset_0_0_15px_rgba(0,243,255,0.1)] border border-cyan-400/60 transition-all sm:aspect-video aspect-[4/3] sm:w-full w-[94%] mx-auto sm:max-h-[70vh] max-h-[50vh] sm:rounded-lg rounded-xl sm:border-cyan-400/60 shadow-lg"
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-          >
-            {/* Tech Corner Accents */}
-            <div className="absolute inset-0 pointer-events-none border-2 border-transparent bg-[linear-gradient(45deg,var(--primary)_0%,transparent_20%)_top_left/100%_100%_no-repeat,linear-gradient(-135deg,var(--primary)_0%,transparent_20%)_bottom_right/100%_100%_no-repeat] opacity-50 z-[5]"></div>
+          <div className="flex flex-col items-center w-full max-w-[1100px] shrink min-h-0 gap-3">
+            <div
+              className="relative w-full aspect-video max-h-[65vh] flex items-center justify-center bg-black/60 rounded-lg overflow-hidden shadow-[0_0_20px_rgba(var(--primary-rgb),0.2),0_0_40px_rgba(var(--primary-rgb),0.1),inset_0_0_15px_rgba(var(--primary-rgb),0.1)] border border-[var(--primary)]/60 transition-all sm:aspect-video aspect-[4/3] sm:w-full w-[94%] mx-auto sm:max-h-[65vh] max-h-[50vh] sm:rounded-lg rounded-xl sm:border-[var(--primary)]/60 shadow-lg"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
+              {/* Tech Corner Accents */}
+              <div className="absolute inset-0 pointer-events-none border-2 border-transparent bg-[linear-gradient(45deg,var(--primary)_0%,transparent_20%)_top_left/100%_100%_no-repeat,linear-gradient(-135deg,var(--primary)_0%,transparent_20%)_bottom_right/100%_100%_no-repeat] opacity-50 z-[5]"></div>
 
-            {/* Holographic Scanline */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)]/50 to-transparent z-[6] opacity-30 animate-[scanline_4s_linear_infinite] pointer-events-none"></div>
+              {/* Holographic Scanline */}
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)]/50 to-transparent z-[6] opacity-30 animate-[scanline_4s_linear_infinite] pointer-events-none"></div>
 
-            <img
-              key={activeIndex}
-              src={getImageUrl(currentImage)}
-              alt={`Property image ${activeIndex + 1}`}
-              className="w-full h-full object-cover z-[2] transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
-            />
+              <img
+                key={activeIndex}
+                src={getImageUrl(currentImage)}
+                alt={`Property image ${activeIndex + 1}`}
+                className="w-full h-full object-cover z-[2] transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+              />
+            </div>
 
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-fit max-w-[80%] sm:max-w-fit sm:w-fit w-[90%] bg-gradient-to-br from-[var(--primary)]/5 to-[var(--background)]/70 backdrop-blur-[25px] saturate-[160%] px-8 py-3 rounded-xl border border-[var(--primary)]/20 shadow-[0_15px_35px_rgba(0,0,0,0.6)] z-10 flex flex-col items-center text-center gap-0.5 animate-[auroraFloat_0.7s_cubic-bezier(0.2,0.8,0.2,1)_forwards] before:content-[''] before:absolute before:left-0 before:top-[20%] before:h-[60%] before:w-1 before:bg-[var(--primary)] before:rounded-r-md sm:py-3 sm:px-8 py-2.5 px-5">
-              <h3 className="text-[1.1rem] sm:text-[1.1rem] text-sm font-bold text-white tracking-wide">
+            <div className="w-full flex flex-col items-center text-center gap-1.5 relative z-[20] px-4 shrink-0">
+              <h3 className="text-[1.1rem] sm:text-xl font-extrabold text-white tracking-wide drop-shadow-lg leading-tight">
                 {getSmartCaption(currentImage, activeIndex)}
               </h3>
               {title && (
-                <span className="text-xs sm:text-[0.8rem] text-[var(--primary)] font-medium tracking-[1.2px] uppercase opacity-90">
+                <span className="text-[0.7rem] sm:text-[0.85rem] text-[var(--primary)] font-bold tracking-[2px] uppercase drop-shadow-md">
                   {title}
                 </span>
               )}
@@ -200,7 +210,7 @@ export default function GalleryModal({
           </div>
 
           <button
-            className="hidden md:flex bg-black/50 border border-cyan-400 text-cyan-400 w-14 h-14 rounded-full items-center justify-center transition-all duration-300 hover:bg-cyan-400/20 hover:scale-110 hover:shadow-[0_0_20px_rgba(0,243,255,0.6)] hover:text-white cursor-pointer backdrop-blur-sm shadow-lg disabled:opacity-10 disabled:cursor-not-allowed disabled:transform-none shrink-0"
+            className="hidden md:flex bg-black/50 border border-[var(--primary)] text-[var(--primary)] w-14 h-14 rounded-full items-center justify-center transition-all duration-300 hover:bg-[var(--primary)]/20 hover:scale-110 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.6)] hover:text-white cursor-pointer backdrop-blur-sm shadow-lg disabled:opacity-10 disabled:cursor-not-allowed disabled:transform-none shrink-0"
             onClick={handleNext}
             disabled={images.length <= 1}
           >
@@ -209,11 +219,11 @@ export default function GalleryModal({
         </div>
 
         {images.length > 1 && (
-          <div className="h-[70px] w-full max-w-[600px] sm:max-w-[600px] max-w-[400px] flex justify-start sm:justify-center items-center gap-2.5 overflow-x-auto p-2 bg-black/40 rounded-[40px] backdrop-blur-[10px] border border-white/10 mb-5 scrollbar-hide absolute bottom-5 sm:relative sm:bottom-0">
+          <div className="relative h-[66px] sm:h-[70px] w-max max-w-full mx-auto sm:w-full sm:max-w-[600px] flex justify-start sm:justify-center items-center gap-2.5 overflow-x-auto p-2 sm:bg-black/40 bg-black/60 rounded-[40px] backdrop-blur-[10px] border border-white/10 mt-0 sm:mt-2 mb-2 sm:mb-4 scrollbar-hide shrink-0">
             {images.map((img, idx) => (
               <button
                 key={idx}
-                className={`flex-none w-[70px] sm:w-[70px] w-[50px] h-full sm:h-full h-[50px] rounded-lg sm:rounded-lg rounded-full overflow-hidden cursor-pointer transition-all duration-300 border-2 bg-transparent opacity-50 hover:opacity-80 hover:-translate-y-0.5 ${
+                className={`flex-none w-[50px] h-[50px] sm:w-[70px] sm:h-full rounded-full sm:rounded-lg overflow-hidden cursor-pointer transition-all duration-300 border-2 bg-transparent opacity-50 hover:opacity-80 hover:-translate-y-0.5 ${
                   idx === activeIndex
                     ? "opacity-100 border-[var(--primary)] scale-110 shadow-[0_0_15px_var(--primary)] thumb-btn-active"
                     : "border-transparent"

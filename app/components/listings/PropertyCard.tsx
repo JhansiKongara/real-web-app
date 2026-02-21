@@ -13,6 +13,7 @@ import {
   Pause,
   Play,
   ChevronDown,
+  Share2,
 } from "lucide-react";
 import { getAmenityIcon } from "@/app/lib/amenities";
 import { useRouter } from "next/navigation";
@@ -75,9 +76,22 @@ export default function PropertyCard({
 
   const handleView = () => {
     if (onView) onView(property);
-    const slug = property.slug || property.id;
+    // Storing selected property in Local Storage to avoid needing IDs in the URL completely.
+    localStorage.setItem("selectedProperty", JSON.stringify(property));
+
+    const slugText =
+      property.slug ||
+      property.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+
     const citySlug = property.city.toLowerCase().replace(/\s+/g, "-");
-    router.push(`/property/${citySlug}/${slug}`);
+
+    // Append the completely unique ID to the END of the URL slug. It behaves as a perfect fallback if localStorage isn't available.
+    const uniqueSlug = `${slugText}-${property.id}`;
+
+    router.push(`/property/${citySlug}/${uniqueSlug}`);
   };
 
   const formatPrice = (p: number) => {
@@ -165,7 +179,7 @@ export default function PropertyCard({
   return (
     <div
       className={`relative flex flex-col w-full min-w-0 rounded-2xl border border-[var(--border)] bg-[var(--card)] backdrop-blur-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-300 hover:shadow-[0_0_40px_rgba(var(--primary-rgb),0.3)] hover:border-[var(--primary)] group overflow-visible h-[460px] cursor-pointer ${
-        showUnitDropdown ? "z-[9999]" : "z-0"
+        showUnitDropdown ? "z-[5]" : "z-0"
       }`}
     >
       {/* Background Image / Overlay Variant */}
@@ -205,9 +219,47 @@ export default function PropertyCard({
         )}
       </div>
 
-      <button className="absolute top-[10px] right-[10px] w-7 h-7 rounded-full bg-[var(--background)]/60 backdrop-blur-sm flex items-center justify-center border border-white/20 cursor-pointer transition-all hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)] group/fav z-[31]">
-        <Heart size={16} className="text-white group-hover/fav:fill-white" />
-      </button>
+      <div className="absolute top-[10px] right-[10px] flex flex-col gap-2 z-[31]">
+        <button className="w-7 h-7 rounded-full bg-[var(--background)]/60 backdrop-blur-sm flex items-center justify-center border border-white/20 cursor-pointer transition-all hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)] group/fav">
+          <Heart
+            size={16}
+            className="text-white group-hover/fav:fill-white transition-colors"
+          />
+        </button>
+        <button
+          className="w-7 h-7 rounded-full bg-[var(--background)]/60 backdrop-blur-sm flex items-center justify-center border border-white/20 cursor-pointer transition-all hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)] group/share"
+          onClick={(e) => {
+            e.stopPropagation();
+            const slugText =
+              property.slug ||
+              property.title
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)/g, "");
+            const uniqueSlug = `${slugText}-${property.id}`;
+            const citySlug = property.city.toLowerCase().replace(/\s+/g, "-");
+            const shareUrl = `${window.location.origin}/property/${citySlug}/${uniqueSlug}`;
+
+            if (navigator.share) {
+              navigator
+                .share({
+                  title: property.title,
+                  text: `Check out this property: ${property.title}`,
+                  url: shareUrl,
+                })
+                .catch(console.error);
+            } else {
+              navigator.clipboard.writeText(shareUrl);
+              alert("Property link copied to clipboard!");
+            }
+          }}
+        >
+          <Share2
+            size={13}
+            className="text-white transition-transform group-hover/share:scale-110"
+          />
+        </button>
+      </div>
 
       {/* Main Content Area - Pushed to Bottom */}
       <div className="relative mt-auto p-3 flex flex-col gap-1.5 z-10 w-full bg-gradient-to-t from-black/70 to-transparent pt-0 rounded-b-2xl">
@@ -315,7 +367,7 @@ export default function PropertyCard({
               </button>
 
               {showUnitDropdown && (
-                <div className="absolute bottom-[110%] right-0 mb-1 min-w-[100px] bg-[var(--card)] border border-[var(--primary)]/30 rounded-lg p-1 flex flex-col gap-0.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-[9999]">
+                <div className="absolute top-[110%] right-0 mt-1 min-w-[100px] bg-[var(--card)] border border-[var(--primary)]/30 rounded-lg p-1 flex flex-col gap-0.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-[9999]">
                   {Object.entries(unitLabels).map(([key, label]) => (
                     <button
                       key={key}
@@ -356,7 +408,7 @@ export default function PropertyCard({
                 )}
                 <div className="flex items-center gap-1 truncate text-[var(--foreground)]">
                   {sellerType && (
-                    <span className="text-[0.55rem] text-[var(--secondary)] font-bold uppercase drop-shadow-md">
+                    <span className="text-[0.55rem] text-[var(--primary)] font-bold uppercase drop-shadow-md">
                       {sellerType}
                     </span>
                   )}
@@ -375,10 +427,10 @@ export default function PropertyCard({
             </div>
 
             <div className="flex flex-col sm:flex-row gap-1 sm:gap-1.5 shrink-0">
-              <button className="px-2 py-1 rounded-lg text-[0.6rem] font-extrabold cursor-pointer border-none flex items-center justify-center gap-1 transition-all uppercase whitespace-nowrap bg-gradient-to-br from-[var(--secondary)]/80 to-[var(--secondary)]/100 text-white border border-[var(--secondary)]/60 shadow-[0_0_15px_rgba(var(--secondary-rgb),0.4),0_4px_8px_rgba(0,0,0,0.3)] hover:from-[var(--secondary)] hover:to-[var(--secondary)] hover:border-[var(--primary)] hover:scale-105 active:scale-95">
+              <button className="px-2 py-1 rounded-lg text-[0.6rem] font-extrabold cursor-pointer border-none flex items-center justify-center gap-1 transition-all uppercase whitespace-nowrap bg-gradient-to-br from-[var(--primary)]/80 to-[var(--primary)]/100 text-white border border-[var(--primary)]/60 shadow-[0_0_15px_rgba(var(--primary-rgb),0.4),0_4px_8px_rgba(0,0,0,0.3)] hover:from-[var(--primary)] hover:to-[var(--primary)] hover:border-[var(--primary)] hover:scale-105 active:scale-95">
                 <MessageSquare size={10} className="animate-pulse" /> Enquiry
               </button>
-              <button className="px-2 py-1 rounded-lg text-[0.6rem] font-extrabold cursor-pointer border-none flex items-center justify-center gap-1 transition-all uppercase whitespace-nowrap bg-gradient-to-br from-[var(--primary)]/80 to-[var(--primary)]/100 text-white border border-[var(--primary)]/60 shadow-[0_0_15px_rgba(var(--primary-rgb),0.4),0_4px_8px_rgba(0,0,0,0.3)] hover:from-[var(--primary)] hover:to-[var(--primary)] hover:border-[var(--secondary)] hover:scale-105 active:scale-95">
+              <button className="px-2 py-1 rounded-lg text-[0.6rem] font-extrabold cursor-pointer border flex items-center justify-center gap-1 transition-all uppercase whitespace-nowrap bg-transparent text-[var(--primary)] border-[var(--primary)] hover:bg-[var(--primary)] hover:text-white hover:shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:scale-105 active:scale-95">
                 <Phone size={10} className="animate-pulse" /> Contact
               </button>
             </div>
@@ -401,7 +453,7 @@ export default function PropertyCard({
           )}
 
           <button
-            className="bg-gradient-to-r from-[var(--primary)]/30 to-[var(--secondary)]/30 backdrop-blur-sm border border-[var(--secondary)] text-[var(--foreground)] px-4 py-2 rounded-full text-[0.75rem] font-bold uppercase tracking-wider cursor-pointer transition-all hover:bg-[var(--secondary)]/50 hover:shadow-[0_0_15px_var(--secondary)] flex items-center gap-1.5 shadow-md group/details"
+            className="bg-gradient-to-r from-[var(--primary)]/30 to-[var(--primary)]/30 backdrop-blur-sm border border-[var(--primary)] text-[var(--foreground)] px-4 py-2 rounded-full text-[0.75rem] font-bold uppercase tracking-wider cursor-pointer transition-all hover:bg-[var(--primary)]/50 hover:shadow-[0_0_15px_var(--primary)] flex items-center gap-1.5 shadow-md group/details"
             onClick={handleView}
           >
             Details{" "}

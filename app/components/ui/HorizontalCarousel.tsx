@@ -46,7 +46,7 @@ export default function HorizontalCarousel({
       <div className="relative w-full max-w-[95%] mx-auto px-[2%]">
         {hasItems && (
           <button
-            className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-1 md:left-2 z-[60] w-9 h-9 md:w-11 md:h-11 rounded-full items-center justify-center transition-all duration-400 cursor-pointer bg-[var(--primary)] shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] border-2 border-white/30 text-white hover:scale-110 hover:bg-[var(--secondary)] active:scale-95"
+            className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-1 md:left-2 z-[60] w-9 h-9 md:w-11 md:h-11 rounded-full items-center justify-center transition-all duration-400 cursor-pointer bg-[var(--primary)] shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] border-2 border-white/30 text-white hover:scale-110 hover:bg-[var(--primary)] active:scale-95"
             onClick={() => scroll("left")}
             aria-label="Scroll Left"
           >
@@ -76,7 +76,7 @@ export default function HorizontalCarousel({
 
         {hasItems && (
           <button
-            className="hidden md:flex absolute top-1/2 -translate-y-1/2 right-1 md:right-2 z-[60] w-9 h-9 md:w-11 md:h-11 rounded-full items-center justify-center transition-all duration-400 cursor-pointer bg-[var(--primary)] shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] border-2 border-white/30 text-white hover:scale-110 hover:bg-[var(--secondary)] active:scale-95"
+            className="hidden md:flex absolute top-1/2 -translate-y-1/2 right-1 md:right-2 z-[60] w-9 h-9 md:w-11 md:h-11 rounded-full items-center justify-center transition-all duration-400 cursor-pointer bg-[var(--primary)] shadow-[0_0_15px_rgba(var(--primary-rgb),0.5)] border-2 border-white/30 text-white hover:scale-110 hover:bg-[var(--primary)] active:scale-95"
             onClick={() => scroll("right")}
             aria-label="Scroll Right"
           >

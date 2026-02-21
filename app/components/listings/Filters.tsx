@@ -179,7 +179,7 @@ export default function Filters({
     <div className="bg-[var(--card)] backdrop-blur-[12px] border-r border-[var(--primary)]/20 w-full p-6 pb-10 h-full overflow-y-auto shadow-[10px_0_30px_-15px_rgba(0,0,0,0.5)] text-[var(--foreground)] transition-colors duration-300">
       {showTitle && (
         <div className="sticky -top-6 z-20 bg-[var(--card)]/95 backdrop-blur-md px-6 py-4 -mx-6 mb-6 flex justify-between items-center border-b-2 border-[var(--primary)]/20 gap-2.5">
-          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
+          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--primary)] before:rounded-sm">
             Filters
           </h3>
           <button
@@ -193,7 +193,7 @@ export default function Filters({
 
       {/* SORT SECTION */}
       <div className="mb-[30px] relative z-[50]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Sort By
         </h4>
         <div className="relative w-full" ref={sortRef}>
@@ -239,7 +239,7 @@ export default function Filters({
 
       {/* PREFERENCES */}
       <div className="mb-[30px] relative z-[45]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Avoid / Preference
         </h4>
         <div className="relative w-full" ref={prefRef}>
@@ -332,7 +332,7 @@ export default function Filters({
 
       {/* AMENITIES */}
       <div className="mb-[30px] relative z-[40]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Amenities
         </h4>
         <div className="relative w-full" ref={amenitiesRef}>
@@ -428,7 +428,7 @@ export default function Filters({
         },
       ].map((section, idx) => (
         <div key={idx} className="mb-[30px]">
-          <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+          <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
             {section.label}
           </h4>
           <div className="flex flex-wrap gap-2">
@@ -451,7 +451,7 @@ export default function Filters({
 
       {/* FACING (with show more) */}
       <div className="mb-[30px]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Facing
         </h4>
         <div className="flex flex-wrap gap-2">
@@ -491,7 +491,7 @@ export default function Filters({
 
       {/* ROAD WIDTH */}
       <div className="mb-[30px]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Road Width (ft)
         </h4>
         <div className="flex flex-wrap gap-2">
@@ -513,7 +513,7 @@ export default function Filters({
 
       {/* PRICE RANGE */}
       <div className="mb-[30px]">
-        <h4 className="text-[0.85rem] mb-[15px] text-[var(--secondary)] font-bold uppercase">
+        <h4 className="text-[0.85rem] mb-[15px] text-[var(--primary)] font-bold uppercase tracking-wider opacity-90">
           Price Range
         </h4>
         <div className="px-1.5">
@@ -551,12 +551,12 @@ export default function Filters({
       {/* AREA RANGE */}
       <div className="mb-[30px] relative">
         <div className="flex justify-between items-center mb-4">
-          <h4 className="text-[0.85rem] text-[var(--secondary)] font-bold uppercase m-0">
+          <h4 className="text-[0.85rem] text-[var(--primary)] font-bold uppercase m-0 tracking-wider opacity-90">
             Area
           </h4>
           <div className="relative" ref={unitRef}>
             <button
-              className="flex items-center gap-1.5 bg-[var(--background)]/80 border border-[var(--secondary)]/30 text-[var(--foreground)] px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-[var(--secondary)]/10 hover:border-[var(--secondary)] hover:text-white"
+              className="flex items-center gap-1.5 bg-[var(--background)]/80 border border-[var(--primary)]/30 text-[var(--foreground)] px-3 py-1.5 rounded-lg text-xs font-bold transition-all hover:bg-[var(--primary)]/10 hover:border-[var(--primary)] hover:text-[var(--primary)]"
               onClick={() => setShowUnitDropdown(!showUnitDropdown)}
             >
               <span>
@@ -576,7 +576,7 @@ export default function Filters({
               />
             </button>
             {showUnitDropdown && (
-              <div className="absolute bottom-full right-0 mb-1.5 bg-[var(--card)] border border-[var(--secondary)]/30 rounded-lg p-1 min-w-[100px] shadow-2xl z-[110]">
+              <div className="absolute bottom-full right-0 mb-1.5 bg-[var(--card)] border border-[var(--primary)]/30 rounded-lg p-1 min-w-[100px] shadow-2xl z-[110]">
                 {["sqyd", "sqft", "gunta", "acre", "cent"].map((unit) => (
                   <button
                     key={unit}
@@ -616,7 +616,7 @@ export default function Filters({
             }
             step={areaUnit === "acre" || areaUnit === "cent" ? 0.1 : 1}
             sx={{
-              color: "var(--secondary)",
+              color: "var(--primary)",
               height: 6,
               "& .MuiSlider-thumb": {
                 width: 18,
@@ -628,7 +628,7 @@ export default function Filters({
             }}
           />
           <div className="flex justify-between items-center mt-2.5 text-xs font-bold text-[var(--muted)] uppercase tracking-wider">
-            <span className="text-[var(--secondary)]">
+            <span className="text-[var(--primary)]">
               {areaRange[0]}{" "}
               {
                 {
@@ -641,7 +641,7 @@ export default function Filters({
               }
             </span>
             <span className="opacity-30">-</span>
-            <span className="text-[var(--secondary)]">
+            <span className="text-[var(--primary)]">
               {areaRange[1]}{" "}
               {
                 {

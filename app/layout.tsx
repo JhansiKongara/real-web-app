@@ -26,17 +26,8 @@ export default function RootLayout({
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="midnight"
-          themes={[
-            "midnight",
-            "solar",
-            "light",
-            "cyberpunk",
-            "emerald",
-            "amethyst",
-          ]}
           enableSystem={false}
-          storageKey="real-estate-theme"
-          disableTransitionOnChange
+          disableTransitionOnChange={false}
         >
           {/* Fixed Header */}
           <Header />

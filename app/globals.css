@@ -28,6 +28,42 @@
 
 /* 
   ------------------------------------------------------------------
+  PREMIUM LAYERED THEME TRANSITIONS
+  ------------------------------------------------------------------
+*/
+@property --background { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --foreground { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --card { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --primary { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --secondary { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --border { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+:root {
+  transition: --background 1.5s ease-in-out, 
+              --foreground 1.5s ease-in-out, 
+              --card 1.5s ease-in-out, 
+              --primary 1.5s ease-in-out, 
+              --secondary 1.5s ease-in-out, 
+              --accent 1.5s ease-in-out, 
+              --muted 1.5s ease-in-out, 
+              --border 1.5s ease-in-out,
+              background-color 1.5s ease-in-out,
+              border-color 1.5s ease-in-out,
+              color 1.5s ease-in-out;
+}
+
+*,
+::before,
+::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 1.5s;
+  transition-timing-function: ease-in-out;
+}
+
+/* 
+  ------------------------------------------------------------------
   THEME SYSTEM (ULTRA CONTRAST MODE)
   ------------------------------------------------------------------
 */

@@ -295,8 +295,8 @@ export default function Listings() {
           </button>
         </div>
 
-        <div className="hidden lg:flex justify-between items-center p-6 pb-4 bg-gradient-to-r from-[var(--card)] to-[var(--primary)]/10 border-b-2 border-[var(--primary)]/30">
-          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--secondary)] before:rounded-sm">
+        <div className="hidden lg:flex justify-between items-center p-6 pb-4 bg-[var(--card)] z-[10] border-b-2 border-[var(--primary)]/30">
+          <h3 className="text-xl font-extrabold text-[var(--primary)] uppercase tracking-[1.5px] m-0 flex items-center gap-2.5 before:content-[''] before:w-1 before:h-[18px] before:bg-[var(--primary)] before:rounded-sm">
             Filters
           </h3>
           <button
@@ -372,8 +372,8 @@ export default function Listings() {
       </div>
 
       {/* RIGHT SIDE CONTENT */}
-      <div className="flex-1 flex flex-col gap-2 md:gap-4 pt-1 pb-4 px-3 md:p-8 lg:p-2.5 lg:px-5 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable">
-        <div className="bg-[var(--card)] lg:p-4 lg:px-6 rounded-2xl lg:border border-[var(--border)] lg:shadow-sm p-0 border-none shadow-none">
+      <div className="flex-1 flex flex-col gap-2 md:gap-4 pt-1 pb-4 px-3 md:px-8 md:pb-8 md:pt-4 lg:px-5 lg:pb-2.5 lg:pt-0 min-w-0 lg:h-full lg:overflow-y-auto scrollbar-gutter-stable">
+        <div className="lg:bg-[var(--card)] lg:py-2 lg:px-8 rounded-2xl lg:rounded-none lg:border-b-2 lg:border-[var(--primary)]/30 lg:shadow-sm p-0 border-none shadow-none lg:sticky lg:-top-[1px] lg:z-10 lg:-mx-5 bg-transparent">
           {/* DESKTOP VIEW */}
           <div className="hidden lg:flex justify-between items-center gap-4">
             <div className="flex flex-col">

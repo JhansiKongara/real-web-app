@@ -2,7 +2,7 @@
 
 function Footer() {
   return (
-    <footer className="footer bg-[var(--card)] text-[var(--foreground)] px-10 flex flex-wrap justify-between gap-1 relative w-full z-[100] md:fixed md:bottom-0 md:left-0 md:flex-row flex-col md:text-left text-center md:py-0 py-[10px] md:px-[40px] px-[20px] md:gap-[5px] gap-[20px] transition-colors duration-300">
+    <footer className="footer bg-[var(--card)] text-[var(--foreground)] px-10 flex flex-wrap justify-between gap-1 relative w-full z-[100] md:fixed md:bottom-0 md:left-0 md:flex-row flex-col md:text-left text-center md:pt-3 md:pb-0 py-[10px] md:px-[40px] px-[20px] md:gap-[5px] gap-[20px] transition-colors duration-300">
       {/* Stylish Gradient Separator */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--primary)] via-[var(--secondary)] to-transparent opacity-100 shadow-[0_0_15px_var(--primary)] z-10 transition-all duration-300"></div>
 
@@ -35,7 +35,7 @@ function Footer() {
           ].map((link, idx) => (
             <li
               key={idx}
-              className="mb-0 block relative pl-[15px] before:content-['›'] before:absolute before:left-0 before:text-[var(--secondary)] before:font-bold before:text-[1.2rem] before:leading-[0.8] before:top-[1px] transition-all duration-300"
+              className="mb-0 block relative pl-[15px] before:content-['›'] before:absolute before:left-0 before:text-[var(--primary)] before:font-bold before:text-[1.2rem] before:leading-[0.8] before:top-[1px] transition-all duration-300"
             >
               <a
                 href={link.href}
